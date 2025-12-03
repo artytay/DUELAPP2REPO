@@ -203,6 +203,33 @@
             gap: 10px;
         }
 
+        /* Tag / chip styles for showing selected items as non-clickable labels */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            opacity: 0.95;
+        }
+
+        .tag-0 { background: var(--primary); }
+        .tag-1 { background: var(--secondary); }
+        .tag-2 { background: var(--success); color: white; }
+        .tag-3 { background: var(--warning); color: #222; }
+        .tag-4 { background: var(--danger); }
+        .tag-5 { background: var(--dark); }
+        .tag-6 { background: #7c3aed; }
+
         /* Buttons */
         .btn {
             padding: 12px 24px;
@@ -957,6 +984,9 @@
                             ${optionsHtml}
                         </select>
                         <div style="font-size:0.85em;color:var(--gray);margin-top:6px;">(Tip: Ctrl/Cmd+click to deselect items)</div>
+
+                        <!-- Visual, non-clickable tags reflecting selected items -->
+                        <div id="preset-tags-${preset.id}" class="tag-container" aria-hidden="true"></div>
                     </div>
                     <div class="actions">
                         <button class="btn btn-primary btn-small" onclick="startPreset('${preset.id}')">
@@ -972,6 +1002,14 @@
                 grid.appendChild(card);
                 // Ensure editor content exists (render empty by default)
                 renderPresetEditor(preset.id);
+
+                // Wire up the multi-select so tags update when selection changes
+                const selEl = document.getElementById(`preset-select-${preset.id}`);
+                if (selEl) {
+                    selEl.addEventListener('change', () => renderPresetTags(preset.id));
+                    // initialize tags for default selected options
+                    renderPresetTags(preset.id);
+                }
             });
         }
 
@@ -1054,6 +1092,27 @@
             el.innerHTML = html;
         }
 
+        // Render non-clickable tags below the multi-select to show selected items visually
+        function renderPresetTags(presetId) {
+            const sel = document.getElementById(`preset-select-${presetId}`);
+            const container = document.getElementById(`preset-tags-${presetId}`);
+            if (!container || !sel) return;
+
+            const selected = Array.from(sel.selectedOptions).map(o => o.value);
+            if (selected.length === 0) {
+                container.innerHTML = '<div style="color:var(--gray);font-size:0.9em;">No items selected</div>';
+                return;
+            }
+
+            const colorClasses = ['tag-0','tag-1','tag-2','tag-3','tag-4','tag-5','tag-6'];
+            container.innerHTML = selected.map((name, idx) => {
+                const cls = colorClasses[idx % colorClasses.length];
+                // use a span (non-clickable) and escape basic HTML
+                const safe = String(name).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<span class="tag ${cls}" title="${safe}">${safe}</span>`;
+            }).join('');
+        }
+
         function savePresetEdits(presetId) {
             const preset = presets.find(p => p.id === presetId);
             if (!preset) return;
@@ -1131,42 +1190,106 @@
             }
         }
 
-        // Create custom session — fixed implementation
+        // Create custom session — improved multi-step flow
         function createCustomSession() {
-            const itemsInput = prompt(
-`Enter items to compare (one per line):
+            // Gather a unique list of existing item names from presets to offer as a library
+            const existingNames = [];
+            presets.forEach(p => p.items.forEach(it => {
+                if (!existingNames.includes(it.name)) existingNames.push(it.name);
+            }));
 
-Example:
-Finish project
-Exercise
-Read book`
+            const kind = prompt('What kind of session do you want to create? (e.g. Goals, Skills, Values, Weekly Goals)', 'Custom');
+            if (kind === null) return;
+
+            const titleDefault = kind ? `${kind} Session` : 'Custom Session';
+            const title = prompt('Enter a name for this session:', titleDefault);
+            if (title === null) return;
+
+            const category = prompt('Enter a category for this session (e.g. goals, skills, values):', kind || 'custom');
+            if (category === null) return;
+
+            // Ask whether to pick from existing library
+            let chosenNames = [];
+            if (existingNames.length > 0 && confirm('Would you like to pick items from your existing library of items? (OK = Yes)')) {
+                // Show a numbered preview (limit to first 50 to avoid massive prompts)
+                const preview = existingNames.slice(0, 50).map((n, i) => `${i + 1}. ${n}`).join('\n');
+                const numbers = prompt(
+`Select existing items by number (comma separated) from the list below (leave blank to skip):\n\n${preview}\n\nExample: 1,3,7`
+                );
+
+                if (numbers) {
+                    const nums = numbers.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+                    nums.forEach(n => {
+                        const idx = n - 1;
+                        if (existingNames[idx]) chosenNames.push(existingNames[idx]);
+                    });
+                }
+            }
+
+            // Ask for any new items (one per line)
+            const newInput = prompt(
+`Enter any NEW items to include (one per line).\nLeave blank if none.`
             );
 
-            if (!itemsInput) return;
+            if (newInput) {
+                const newItems = newInput.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                newItems.forEach(n => {
+                    if (!chosenNames.includes(n)) chosenNames.push(n);
+                });
+            }
 
-            const items = itemsInput
-                .split('\n')
-                .map(line => line.trim())
-                .filter(line => line.length > 0)
-                .map(name => ({
-                    name,
-                    description: '',
-                    elo: appState.settings.defaultElo,
-                    wins: 0,
-                    losses: 0,
-                    comparisons: 0
-                }));
+            // If user didn't select or enter enough items, prompt them to enter items directly
+            if (chosenNames.length < 2) {
+                const fallback = prompt(
+`Please enter at least 2 items to compare (one per line):\n\nExample:\nFinish project\nExercise\nRead book`
+                );
+                if (!fallback) return;
+                const fb = fallback.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                fb.forEach(n => { if (!chosenNames.includes(n)) chosenNames.push(n); });
+            }
 
-            if (items.length < 2) {
-                alert('Please enter at least 2 items to compare');
+            // Normalize unique chosenNames
+            chosenNames = Array.from(new Set(chosenNames)).map(n => n.trim()).filter(n => n.length > 0);
+
+            if (chosenNames.length < 2) {
+                alert('Please provide at least 2 unique items to start a duel.');
                 return;
             }
+
+            // Persist any brand-new items into a 'User Library' preset for reuse
+            const userPresetId = 'user-library';
+            let userPreset = presets.find(p => p.id === userPresetId);
+            if (!userPreset) {
+                userPreset = { id: userPresetId, title: 'User Library', description: 'Items you added', items: [] };
+                presets.push(userPreset);
+            }
+
+            chosenNames.forEach(name => {
+                const existsInAny = presets.some(p => p.items.some(i => i.name === name));
+                if (!existsInAny) {
+                    userPreset.items.push({ name, description: '' });
+                }
+            });
+
+            // Save updated presets so user-added items persist
+            savePresetsToStorage();
+
+            // Build items for the session with Elo metadata
+            const items = chosenNames.map(name => ({
+                name,
+                description: '',
+                elo: appState.settings.defaultElo,
+                wins: 0,
+                losses: 0,
+                comparisons: 0
+            }));
 
             appState.items = items;
             appState.currentSession = {
                 id: Date.now(),
                 presetId: 'custom',
-                title: 'Custom Session',
+                title: title || titleDefault,
+                category: category || kind || 'custom',
                 startTime: new Date().toISOString(),
                 items: [...appState.items],
                 comparisons: []
