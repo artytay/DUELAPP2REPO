@@ -26,6 +26,86 @@
             --shadow: rgba(0, 0, 0, 0.1);
         }
 
+        /* Dark Mode */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-mode .container {
+            background: #0f172a;
+            color: #e0e7ff;
+        }
+
+        body.dark-mode .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        body.dark-mode .nav-tabs {
+            background: #1e293b;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .nav-tab {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .nav-tab:hover {
+            background: rgba(148, 163, 184, 0.1);
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .nav-tab.active {
+            color: #e2e8f0;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        body.dark-mode .tab-content {
+            background: #0f172a;
+        }
+
+        body.dark-mode .preset-card {
+            background: #1e293b;
+            border-color: #334155;
+            color: #e0e7ff;
+        }
+
+        body.dark-mode .preset-card:hover {
+            border-color: var(--primary);
+        }
+
+        body.dark-mode .stat-card {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        body.dark-mode .option-card {
+            background: #1e293b;
+            color: #e0e7ff;
+            border-color: #334155;
+        }
+
+        body.dark-mode .option-card:hover {
+            border-color: var(--primary);
+        }
+
+        body.dark-mode h2, body.dark-mode h3, body.dark-mode p {
+            color: #e0e7ff;
+        }
+
+        body.dark-mode .btn-secondary {
+            background: #334155;
+            color: #e0e7ff;
+        }
+
+        body.dark-mode .btn-secondary:hover {
+            background: #475569;
+        }
+
+        body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
+            background: #1e293b;
+            color: #e0e7ff;
+            border-color: #334155;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -124,36 +204,36 @@
         /* Dashboard */
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow);
         }
 
         .stat-card h3 {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: 0.75em;
+            opacity: 0.85;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .stat-card .value {
-            font-size: 2.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .stat-card .label {
-            opacity: 0.8;
-            font-size: 0.9em;
+            opacity: 0.75;
+            font-size: 0.8em;
         }
 
         /* Preset Cards */
@@ -202,6 +282,166 @@
             display: flex;
             gap: 10px;
         }
+
+        /* Tag / chip styles for showing selected items as non-clickable labels */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            opacity: 0.95;
+        }
+
+        .tag { display:inline-flex; align-items:center; gap:8px; }
+        .tag .tag-label { pointer-events: none; }
+        .tag .tag-x {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background: rgba(0,0,0,0.12);
+            color: white;
+            font-weight: 700;
+            line-height: 18px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Mini previous comparison shown to the left of the main comparison cards */
+        .mini-prev { width: auto; display:flex; flex-direction:column; gap:6px; align-items:flex-start; align-self:flex-start; }
+        /* make mini options compact, left-aligned, narrow with light background and left accent bar */
+        .mini-prev .mini-option { 
+            padding:4px 10px;
+            border-radius:4px;
+            border:none;
+            border-left:3px solid transparent;
+            background:#f3f4f6;
+            cursor:pointer;
+            font-weight:600;
+            opacity:0.65;
+            font-size:0.7em;
+            width:100%;
+            min-width:200px;
+            text-align:left;
+            transition:transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
+            transform-origin:left center;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            line-height:1.3;
+        }
+        .mini-prev .mini-option.selected { 
+            box-shadow:0 4px 12px rgba(0,0,0,0.1);
+            border-left-color:var(--primary);
+            background:linear-gradient(90deg, #ede9fe 0%, #f3e8ff 100%);
+            color:var(--dark);
+            opacity:1;
+            transform:scale(1.02);
+        }
+        .mini-prev .mini-option.shrink { transform: scale(0.6) translateY(-10px); opacity: 0; }    .vs-divider { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+    .vs-text { font-weight:800; color:var(--gray); }
+
+    /* Move main cards slightly when mini block is present to create space with transition */
+    .comparison-container.has-mini .option-card { transition: transform 260ms cubic-bezier(.2,.9,.3,1); }
+    .comparison-container.has-mini #optionA { transform: translateY(-8px); }
+    .comparison-container.has-mini #optionB { transform: translateY(8px); }
+
+        /* animated cloned card used during move-to-mini transition */
+        .anim-clone {
+            position: fixed;
+            z-index: 99999;
+            pointer-events: none;
+            transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 260ms ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .tag .tag-x {
+            margin-left: 8px;
+            font-weight: 800;
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        .tag-0 { background: var(--primary); }
+        .tag-1 { background: var(--secondary); }
+        .tag-2 { background: var(--success); color: white; }
+        .tag-3 { background: var(--warning); color: #222; }
+        .tag-4 { background: var(--danger); }
+        .tag-5 { background: var(--dark); }
+        .tag-6 { background: #7c3aed; }
+
+        /* Session item squares shown on the duel arena */
+        .item-squares {
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+            margin-bottom:12px;
+        }
+
+        .item-square {
+            padding:8px 10px;
+            border-radius:8px;
+            background:var(--light);
+            color:var(--dark);
+            border:1px solid var(--border);
+            font-weight:600;
+            font-size:0.85em;
+            min-width:80px;
+            text-align:center;
+            opacity:1;
+            transition:all 0.2s;
+        }
+
+        .item-square.greyed {
+            opacity:0.4;
+            background:#f3f4f6;
+            color:var(--gray);
+        }
+
+        /* Mini history listing in duel arena */
+        .mini-history {
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-top:10px;
+        }
+
+        .mini-history .history-card {
+            background: white;
+            border:1px solid var(--border);
+            padding:8px 10px;
+            border-radius:8px;
+            font-size:0.85em;
+            cursor:pointer;
+            display:flex;
+            gap:8px;
+            align-items:center;
+            min-width:160px;
+        }
+
+.mini-history .history-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+
+        /* Styling for single previous comparison (compact) */
+        .previous-card { width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px; }
+        .previous-card .prev-left { display:flex; gap:12px; align-items:center; }
+        .winner-badge { padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85em; color:white; }
+        .winner-badge.a { background: var(--primary); }
+        .winner-badge.b { background: var(--secondary); }
+        .previous-meta { color:var(--gray); font-size:0.85em; }
 
         /* Buttons */
         .btn {
@@ -287,6 +527,695 @@
             text-align: center;
             color: var(--gray);
             font-weight: 600;
+        }
+
+        /* Progress Ring (Circular) */
+        .progress-ring-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-ring-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .progress-ring-bg {
+            fill: white;
+            stroke: #e5e7eb;
+            stroke-width: 3;
+        }
+
+        body.dark-mode .progress-ring-bg {
+            fill: #1e293b;
+            stroke: #334155;
+        }
+
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 226;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.6s ease;
+        }
+
+        .progress-ring-text {
+            position: absolute;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            color: var(--dark);
+        }
+
+        body.dark-mode .progress-ring-text {
+            color: #e0e7ff;
+        }
+
+        .progress-ring-percent {
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .progress-ring-label {
+            font-size: 0.6em;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        /* Elo Delta Badge */
+        .elo-delta {
+            position: fixed;
+            font-weight: bold;
+            font-size: 1.2em;
+            padding: 8px 12px;
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: eloFloat 1.2s ease-out forwards;
+        }
+
+        .elo-delta.positive {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .elo-delta.negative {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        @keyframes eloFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.8);
+            }
+        }
+
+        /* Mini Option Hover Tooltip */
+        .mini-option-tooltip {
+            position: absolute;
+            background: var(--dark);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1001;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        body.dark-mode .mini-option-tooltip {
+            background: #e0e7ff;
+            color: #0f172a;
+        }
+
+        .mini-prev .mini-option:hover .mini-option-tooltip {
+            opacity: 1;
+        }
+
+        /* Keyboard Shortcuts Bar */
+        .keyboard-shortcuts-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.9em;
+            z-index: 999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .keyboard-shortcuts-bar {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 1) 100%);
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shortcut-key {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* Completion Modal */
+        .completion-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        body.dark-mode .completion-modal {
+            background: #1e293b;
+            color: #e0e7ff;
+        }
+
+        .completion-modal h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .completion-modal .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .completion-modal .stat-row {
+            border-bottom-color: #334155;
+        }
+
+        .completion-modal .stat-label {
+            font-weight: 500;
+        }
+
+        .completion-modal .stat-value {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .completion-modal .top-items {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .completion-modal .top-item {
+            background: var(--light);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .completion-modal .top-item {
+            background: #334155;
+        }
+
+        .completion-modal .medal {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .completion-modal .medal-1 { color: #fbbf24; }
+        .completion-modal .medal-2 { color: #c0c0c0; }
+        .completion-modal .medal-3 { color: #cd7f32; }
+
+        /* Confetti Canvas */
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ========== RESULTS DASHBOARD STYLES ========== */
+        .results-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .results-section {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .results-section {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .results-section:hover {
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .results-section h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-mode .results-section h3 {
+            color: #e0e7ff;
+        }
+
+        /* Rankings Table */
+        .rankings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rankings-table thead {
+            background: var(--light);
+            border-bottom: 2px solid var(--border);
+        }
+
+        body.dark-mode .rankings-table thead {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .rankings-table th {
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.85em;
+        }
+
+        body.dark-mode .rankings-table th {
+            color: #e0e7ff;
+        }
+
+        .rankings-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        body.dark-mode .rankings-table td {
+            border-color: #334155;
+            color: #e0e7ff;
+        }
+
+        .rankings-table tbody tr:hover {
+            background: var(--light);
+        }
+
+        body.dark-mode .rankings-table tbody tr:hover {
+            background: #334155;
+        }
+
+        .rank-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1em;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .elo-score {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .win-rate {
+            background: linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #065f46;
+        }
+
+        body.dark-mode .win-rate {
+            background: linear-gradient(90deg, #064e3b 0%, #047857 100%);
+            color: #d1fae5;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            width: 100%;
+        }
+
+        .chart-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .chart-label {
+            min-width: 120px;
+            font-size: 0.9em;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            background: var(--light);
+            border-radius: 6px;
+            height: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body.dark-mode .chart-bar-container {
+            background: #334155;
+        }
+
+        .chart-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+            min-width: 30px;
+            transition: all 0.3s;
+        }
+
+        .chart-bar:hover {
+            filter: brightness(1.1);
+        }
+
+        .chart-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-name {
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .category-count {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .category-subtitle {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* Stat Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: var(--light);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .stat-box {
+            background: #334155;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .stat-label {
+            color: #cbd5e1;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Grade Badge */
+        .grade-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: white;
+            margin: 0 2px;
+        }
+
+        .grade-s {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .grade-a {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+        }
+
+        .grade-b {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .grade-c {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+
+        .grade-d {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        /* Top Highlights */
+        .highlights-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .highlight-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-color: #334155;
+        }
+
+        .highlight-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .highlight-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .highlight-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .highlight-label {
+            font-size: 0.85em;
+            color: var(--gray);
+        }
+
+        body.dark-mode .highlight-label {
+            color: #cbd5e1;
+        }
+
+        /* Comparison Matrix */
+        .matrix-container {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8em;
+        }
+
+        .matrix-table th, .matrix-table td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: center;
+        }
+
+        body.dark-mode .matrix-table th, body.dark-mode .matrix-table td {
+            border-color: #334155;
+        }
+
+        .matrix-table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        body.dark-mode .matrix-table th {
+            background: #334155;
+            color: #e0e7ff;
+        }
+
+        .matrix-win {
+            background: linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            font-weight: bold;
+        }
+
+        .matrix-loss {
+            background: linear-gradient(90deg, #fee2e2 0%, #fecaca 100%);
+            color: #7f1d1d;
+            font-weight: bold;
+        }
+
+        .matrix-label {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        body.dark-mode .matrix-label {
+            color: #e0e7ff;
+        }
+
+        /* Tier List */
+        .tier-list {
+            margin-top: 15px;
+        }
+
+        .tier-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: stretch;
+        }
+
+        .tier-label {
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .tier-s { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); }
+        .tier-a { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #333; }
+        .tier-b { background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%); }
+        .tier-c { background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); }
+        .tier-d { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
+
+        .tier-items {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+            background: var(--light);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        body.dark-mode .tier-items {
+            background: #334155;
+        }
+
+        .tier-item {
+            background: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        body.dark-mode .tier-item {
+            background: #1e293b;
+            border-color: #475569;
+            color: #e0e7ff;
         }
 
         .comparison-container {
@@ -478,6 +1407,197 @@
             color: var(--dark);
         }
 
+        /* Items Database */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        body.dark-mode .items-table {
+            background: #1e293b;
+        }
+
+        .items-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .items-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .items-table th:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #7c3aed 100%);
+        }
+
+        .items-table th.sortable::after {
+            content: ' ↕️';
+            opacity: 0.6;
+        }
+
+        .items-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        body.dark-mode .items-table tbody tr {
+            border-bottom-color: #334155;
+        }
+
+        .items-table tbody tr:hover {
+            background: #f0f4ff;
+        }
+
+        body.dark-mode .items-table tbody tr:hover {
+            background: #334155;
+        }
+
+        .items-table td {
+            padding: 12px 15px;
+            color: var(--dark);
+        }
+
+        body.dark-mode .items-table td {
+            color: #e0e7ff;
+        }
+
+        .items-table .item-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .items-table .stat-badge {
+            display: inline-block;
+            background: var(--light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        body.dark-mode .items-table .stat-badge {
+            background: #334155;
+            color: #e0e7ff;
+        }
+
+        .items-table .category-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            margin-bottom: 3px;
+        }
+
+        .items-table .sessions-tag {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+        }
+
+        /* Collapsible Result Sections */
+        .result-block {
+            margin-bottom: 20px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        body.dark-mode .result-block {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .result-block.collapsed {
+            max-height: 80px;
+        }
+
+        .result-block.collapsed .result-content {
+            display: none;
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+            transition: all 0.3s;
+        }
+
+        .result-header:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #7c3aed 100%);
+        }
+
+        .result-header .collapse-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .result-block.collapsed .result-header .collapse-icon {
+            transform: rotate(-90deg);
+        }
+
+        .result-content {
+            padding: 20px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 2000px;
+            }
+        }
+
+        /* Bulk Select */
+        .session-card.selected {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        body.dark-mode .session-card.selected {
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .session-card .bulk-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .session-card .session-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         /* Notion Integration */
         .integration-panel {
             background: var(--light);
@@ -522,7 +1642,7 @@
             }
 
             .vs-divider {
-                transform: rotate(90deg);
+                transform: none;
             }
 
             .header h1 {
@@ -570,6 +1690,37 @@
             margin-bottom: 20px;
             opacity: 0.5;
         }
+
+        /* Modal for creating sessions (in-page) */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-backdrop.visible { display: flex; }
+
+        .modal {
+            background: white;
+            width: 720px;
+            max-width: 95%;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .modal h3 { margin-bottom: 8px; }
+
+        .modal .modal-row { display:flex; gap:10px; margin-bottom:10px; }
+        .modal .modal-row .col { flex:1; }
+
+        .modal .library-list { max-height: 200px; overflow:auto; border:1px solid var(--border); padding:8px; border-radius:8px; }
+
+        .tag.removable { cursor: pointer; opacity: 0.95; }
     </style>
 </head>
 <body>
@@ -581,6 +1732,7 @@
                 <span>Task-Duel Masterblock</span>
             </h1>
             <p>Make better decisions through pairwise comparison and Elo ranking</p>
+            <button id="darkModeToggle" onclick="toggleDarkMode()" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; color: white; font-size: 1.5em; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: all 0.3s;">🌙</button>
         </div>
 
         <!-- Navigation -->
@@ -589,6 +1741,7 @@
             <button class="nav-tab" data-tab="duel">⚔️ Duel Arena</button>
             <button class="nav-tab" data-tab="results">🏆 Results</button>
             <button class="nav-tab" data-tab="history">📜 History</button>
+            <button class="nav-tab" data-tab="items">📋 Items Database</button>
             <button class="nav-tab" data-tab="memory">💾 Memory</button>
             <button class="nav-tab" data-tab="integrations">🔗 Integrations</button>
             <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
@@ -622,7 +1775,7 @@
             </div>
 
             <div style="margin-top: 30px;">
-                <button class="btn btn-primary btn-full" onclick="createCustomSession()">
+                <button class="btn btn-primary btn-full" onclick="openCreateSessionModal()">
                     ➕ Create Custom Session
                 </button>
             </div>
@@ -631,6 +1784,9 @@
         <!-- Duel Arena Tab -->
         <div id="duel" class="tab-content">
             <div class="duel-arena">
+                <!-- Session items bar: shows all items as small squares, greyed out when shown -->
+                <div id="sessionItemsBar" class="item-squares" aria-hidden="false"></div>
+
                 <div class="duel-progress">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
@@ -646,16 +1802,19 @@
                     </div>
                 </div>
 
+                <!-- Mini history of the most recent answered comparison (placed below the cards) -->
+                <div id="duelHistory" class="mini-history" aria-live="polite"></div>
+
                 <div id="duelControls" style="display: none; text-align: center; margin-top: 20px; gap: 10px; display: flex; justify-content: center;">
                     <button class="btn btn-secondary" onclick="skipComparison()">⏭️ Skip</button>
                     <button class="btn btn-danger" onclick="endDuel()">❌ End Session</button>
+                    <button class="btn btn-secondary" onclick="cancelSession()">↩️ Cancel Session</button>
                 </div>
             </div>
         </div>
 
         <!-- Results Tab -->
         <div id="results" class="tab-content">
-            <h2 style="margin-bottom: 20px; color: var(--dark);">🏆 Current Rankings</h2>
             <div id="resultsArea">
                 <div class="empty-state">
                     <div class="empty-state-icon">📊</div>
@@ -668,11 +1827,39 @@
         <!-- History Tab -->
         <div id="history" class="tab-content">
             <h2 style="margin-bottom: 20px; color: var(--dark);">📜 Session History</h2>
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+                <button class="btn btn-small btn-secondary" onclick="toggleBulkSelectMode()" id="bulkSelectBtn">☑️ Select Multiple</button>
+                <span id="bulkSelectInfo" style="display: none; color: var(--gray);">
+                    Selected: <strong id="selectedCount">0</strong> | 
+                    <button class="btn btn-small btn-warning" onclick="archiveSelected()" style="background: var(--warning);">📦 Archive</button>
+                    <button class="btn btn-small btn-danger" onclick="deleteSelected()" style="background: var(--danger);">🗑️ Delete</button>
+                    <button class="btn btn-small btn-secondary" onclick="toggleBulkSelectMode()">Cancel</button>
+                </span>
+            </div>
             <div id="historyArea">
                 <div class="empty-state">
                     <div class="empty-state-icon">📜</div>
                     <h3>No History Yet</h3>
                     <p>Your completed duel sessions will appear here</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Database Tab -->
+        <div id="items" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: var(--dark);">📋 Items Database</h2>
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="itemsSearchInput" placeholder="Search items..." class="form-input" style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+                <select id="itemsFilterCategory" class="form-input" style="padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+                    <option value="">All Categories</option>
+                </select>
+                <button class="btn btn-small btn-secondary" onclick="renderItemsDatabase()">🔄 Refresh</button>
+            </div>
+            <div id="itemsDatabaseArea">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <h3>No Items Yet</h3>
+                    <p>Items from duel sessions will appear here</p>
                 </div>
             </div>
         </div>
@@ -765,6 +1952,43 @@
         <kbd>→</kbd> Choose right<br>
         <kbd>S</kbd> Skip comparison<br>
         <kbd>?</kbd> Toggle this hint
+    </div>
+
+    <!-- Create Session Modal -->
+    <div class="modal-backdrop" id="createSessionBackdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createSessionTitle">
+            <h3 id="createSessionTitle">➕ Create Session</h3>
+
+            <div class="modal-row">
+                <div class="col">
+                    <label>Session Name</label>
+                    <input id="modalSessionName" class="form-control" placeholder="e.g. Weekend Goals" />
+                </div>
+                <div class="col">
+                    <label>Category</label>
+                    <input id="modalSessionCategory" class="form-control" placeholder="e.g. goals, skills, values" />
+                </div>
+            </div>
+
+            <div style="margin-bottom:8px;">
+                <label style="font-weight:600;">Pick items from your library</label>
+                <div id="modalLibrary" class="library-list"></div>
+            </div>
+
+            <div style="margin-bottom:8px;">
+                <label style="font-weight:600;">Add new items (one per line) — optional description using "|"</label>
+                <textarea id="modalNewItems" class="form-control" placeholder="Format per line: Item name | description (description optional)"></textarea>
+                <small style="color:var(--gray);">Example: Finish project | Due Friday</small>
+            </div>
+
+            <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;">
+                <div style="color:var(--gray);font-size:0.9em;">Select library items and/or add new ones. At least 2 items required.</div>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn btn-secondary" onclick="closeCreateSessionModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveSessionFromModal()">Start Session</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -885,6 +2109,9 @@
             updateDashboardStats();
             loadSettings();
             setupKeyboardShortcuts();
+            initDarkMode();
+            initProgressRing();
+            initKeyboardShortcutsBar();
 
             // Attach click handlers to nav tabs so they switch sections
             document.querySelectorAll('.nav-tab').forEach(btn => {
@@ -957,6 +2184,9 @@
                             ${optionsHtml}
                         </select>
                         <div style="font-size:0.85em;color:var(--gray);margin-top:6px;">(Tip: Ctrl/Cmd+click to deselect items)</div>
+
+                        <!-- Visual, non-clickable tags reflecting selected items -->
+                        <div id="preset-tags-${preset.id}" class="tag-container" aria-hidden="true"></div>
                     </div>
                     <div class="actions">
                         <button class="btn btn-primary btn-small" onclick="startPreset('${preset.id}')">
@@ -972,6 +2202,14 @@
                 grid.appendChild(card);
                 // Ensure editor content exists (render empty by default)
                 renderPresetEditor(preset.id);
+
+                // Wire up the multi-select so tags update when selection changes
+                const selEl = document.getElementById(`preset-select-${preset.id}`);
+                if (selEl) {
+                    selEl.addEventListener('change', () => renderPresetTags(preset.id));
+                    // initialize tags for default selected options
+                    renderPresetTags(preset.id);
+                }
             });
         }
 
@@ -1054,6 +2292,153 @@
             el.innerHTML = html;
         }
 
+        // Render non-clickable tags below the multi-select to show selected items visually
+        function renderPresetTags(presetId) {
+            const sel = document.getElementById(`preset-select-${presetId}`);
+            const container = document.getElementById(`preset-tags-${presetId}`);
+            if (!container || !sel) return;
+
+            const selected = Array.from(sel.selectedOptions).map(o => o.value);
+            if (selected.length === 0) {
+                container.innerHTML = '<div style="color:var(--gray);font-size:0.9em;">No items selected</div>';
+                return;
+            }
+
+            const colorClasses = ['tag-0','tag-1','tag-2','tag-3','tag-4','tag-5','tag-6'];
+            container.innerHTML = selected.map((name, idx) => {
+                const cls = colorClasses[idx % colorClasses.length];
+                // use a span and escape basic HTML
+                const safe = String(name).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<span class="tag removable ${cls}" data-name="${safe}" title="Click to remove"><span class="tag-label">${safe}</span><span class="tag-x">×</span></span>`;
+            }).join('');
+
+            // Allow clicking a tag to deselect the corresponding option in the multi-select
+                container.querySelectorAll('.tag.removable').forEach(tagEl => {
+                    // clicking the 'x' only will deselect
+                    const x = tagEl.querySelector('.tag-x');
+                    if (x) {
+                        x.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const name = tagEl.getAttribute('data-name');
+                            for (const opt of sel.options) {
+                                if (opt.value === name) {
+                                    opt.selected = false;
+                                }
+                            }
+                            renderPresetTags(presetId);
+                            sel.dispatchEvent(new Event('change'));
+                        });
+                    }
+                });
+        }
+
+        // -------------------------
+        // Create Session Modal JS
+        // -------------------------
+        function openCreateSessionModal() {
+            const backdrop = document.getElementById('createSessionBackdrop');
+            const name = document.getElementById('modalSessionName');
+            const category = document.getElementById('modalSessionCategory');
+            const library = document.getElementById('modalLibrary');
+
+            // populate library from presets (unique names)
+            const existing = [];
+            presets.forEach(p => p.items.forEach(it => { if (!existing.includes(it.name)) existing.push(it.name); }));
+
+            library.innerHTML = '';
+            if (existing.length === 0) {
+                library.innerHTML = '<div style="color:var(--gray);">No items in library yet.</div>';
+            } else {
+                const ul = document.createElement('div');
+                existing.forEach((n, i) => {
+                    const id = `lib-${i}`;
+                    const line = document.createElement('div');
+                    line.style.display = 'flex';
+                    line.style.alignItems = 'center';
+                    line.style.gap = '8px';
+                    line.innerHTML = `<input type="checkbox" id="${id}" value="${n}" /><label for="${id}" style="margin-left:6px;">${n}</label>`;
+                    ul.appendChild(line);
+                });
+                library.appendChild(ul);
+            }
+
+            // clear inputs
+            name.value = '';
+            category.value = '';
+            document.getElementById('modalNewItems').value = '';
+
+            backdrop.classList.add('visible');
+            backdrop.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeCreateSessionModal() {
+            const backdrop = document.getElementById('createSessionBackdrop');
+            backdrop.classList.remove('visible');
+            backdrop.setAttribute('aria-hidden', 'true');
+        }
+
+        function saveSessionFromModal() {
+            const name = document.getElementById('modalSessionName').value.trim();
+            const category = document.getElementById('modalSessionCategory').value.trim();
+            const newText = document.getElementById('modalNewItems').value;
+            const library = document.getElementById('modalLibrary');
+
+            // collect checked library items
+            const chosen = [];
+            library.querySelectorAll('input[type=checkbox]').forEach(cb => { if (cb.checked) chosen.push(cb.value); });
+
+            // collect new items (support 'Name | Description' per line)
+            const newItemsArr = [];
+            if (newText && newText.trim()) {
+                newText.split('\n').map(s => s.trim()).filter(s => s).forEach(line => {
+                    // parse 'name | description'
+                    const parts = line.split('|').map(p => p.trim());
+                    const itemName = parts[0];
+                    const itemDesc = parts[1] || '';
+                    if (!chosen.includes(itemName)) {
+                        chosen.push(itemName);
+                        newItemsArr.push({ name: itemName, description: itemDesc });
+                    }
+                });
+            }
+
+            if (chosen.length < 2) {
+                alert('Please choose or add at least 2 items for the session.');
+                return;
+            }
+
+            // Persist new items into user library preset
+            const userPresetId = 'user-library';
+            let userPreset = presets.find(p => p.id === userPresetId);
+            if (!userPreset) {
+                userPreset = { id: userPresetId, title: 'User Library', description: 'Items you added', items: [] };
+                presets.push(userPreset);
+            }
+
+            chosen.forEach(nameItem => {
+                const exists = presets.some(p => p.items.some(i => i.name === nameItem));
+                if (!exists) {
+                    // prefer description if provided in newItemsArr
+                    const found = newItemsArr.find(n => n.name === nameItem);
+                    userPreset.items.push({ name: nameItem, description: (found ? found.description : '') });
+                }
+            });
+            savePresetsToStorage();
+            renderPresets();
+
+            // Build session (include descriptions where provided)
+            appState.items = chosen.map(n => {
+                const found = newItemsArr.find(x => x.name === n);
+                return { name: n, description: found ? found.description : '', elo: appState.settings.defaultElo, wins:0, losses:0, comparisons:0 };
+            });
+            appState.currentSession = { id: Date.now(), presetId: 'custom', title: name || 'Custom Session', category: category || 'custom', startTime: new Date().toISOString(), items: [...appState.items], comparisons: [] };
+
+            closeCreateSessionModal();
+            generateComparisons();
+            switchTab('duel');
+            nextComparison();
+        }
+
         function savePresetEdits(presetId) {
             const preset = presets.find(p => p.id === presetId);
             if (!preset) return;
@@ -1131,42 +2516,106 @@
             }
         }
 
-        // Create custom session — fixed implementation
+        // Create custom session — improved multi-step flow
         function createCustomSession() {
-            const itemsInput = prompt(
-`Enter items to compare (one per line):
+            // Gather a unique list of existing item names from presets to offer as a library
+            const existingNames = [];
+            presets.forEach(p => p.items.forEach(it => {
+                if (!existingNames.includes(it.name)) existingNames.push(it.name);
+            }));
 
-Example:
-Finish project
-Exercise
-Read book`
+            const kind = prompt('What kind of session do you want to create? (e.g. Goals, Skills, Values, Weekly Goals)', 'Custom');
+            if (kind === null) return;
+
+            const titleDefault = kind ? `${kind} Session` : 'Custom Session';
+            const title = prompt('Enter a name for this session:', titleDefault);
+            if (title === null) return;
+
+            const category = prompt('Enter a category for this session (e.g. goals, skills, values):', kind || 'custom');
+            if (category === null) return;
+
+            // Ask whether to pick from existing library
+            let chosenNames = [];
+            if (existingNames.length > 0 && confirm('Would you like to pick items from your existing library of items? (OK = Yes)')) {
+                // Show a numbered preview (limit to first 50 to avoid massive prompts)
+                const preview = existingNames.slice(0, 50).map((n, i) => `${i + 1}. ${n}`).join('\n');
+                const numbers = prompt(
+`Select existing items by number (comma separated) from the list below (leave blank to skip):\n\n${preview}\n\nExample: 1,3,7`
+                );
+
+                if (numbers) {
+                    const nums = numbers.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+                    nums.forEach(n => {
+                        const idx = n - 1;
+                        if (existingNames[idx]) chosenNames.push(existingNames[idx]);
+                    });
+                }
+            }
+
+            // Ask for any new items (one per line)
+            const newInput = prompt(
+`Enter any NEW items to include (one per line).\nLeave blank if none.`
             );
 
-            if (!itemsInput) return;
+            if (newInput) {
+                const newItems = newInput.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                newItems.forEach(n => {
+                    if (!chosenNames.includes(n)) chosenNames.push(n);
+                });
+            }
 
-            const items = itemsInput
-                .split('\n')
-                .map(line => line.trim())
-                .filter(line => line.length > 0)
-                .map(name => ({
-                    name,
-                    description: '',
-                    elo: appState.settings.defaultElo,
-                    wins: 0,
-                    losses: 0,
-                    comparisons: 0
-                }));
+            // If user didn't select or enter enough items, prompt them to enter items directly
+            if (chosenNames.length < 2) {
+                const fallback = prompt(
+`Please enter at least 2 items to compare (one per line):\n\nExample:\nFinish project\nExercise\nRead book`
+                );
+                if (!fallback) return;
+                const fb = fallback.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                fb.forEach(n => { if (!chosenNames.includes(n)) chosenNames.push(n); });
+            }
 
-            if (items.length < 2) {
-                alert('Please enter at least 2 items to compare');
+            // Normalize unique chosenNames
+            chosenNames = Array.from(new Set(chosenNames)).map(n => n.trim()).filter(n => n.length > 0);
+
+            if (chosenNames.length < 2) {
+                alert('Please provide at least 2 unique items to start a duel.');
                 return;
             }
+
+            // Persist any brand-new items into a 'User Library' preset for reuse
+            const userPresetId = 'user-library';
+            let userPreset = presets.find(p => p.id === userPresetId);
+            if (!userPreset) {
+                userPreset = { id: userPresetId, title: 'User Library', description: 'Items you added', items: [] };
+                presets.push(userPreset);
+            }
+
+            chosenNames.forEach(name => {
+                const existsInAny = presets.some(p => p.items.some(i => i.name === name));
+                if (!existsInAny) {
+                    userPreset.items.push({ name, description: '' });
+                }
+            });
+
+            // Save updated presets so user-added items persist
+            savePresetsToStorage();
+
+            // Build items for the session with Elo metadata
+            const items = chosenNames.map(name => ({
+                name,
+                description: '',
+                elo: appState.settings.defaultElo,
+                wins: 0,
+                losses: 0,
+                comparisons: 0
+            }));
 
             appState.items = items;
             appState.currentSession = {
                 id: Date.now(),
                 presetId: 'custom',
-                title: 'Custom Session',
+                title: title || titleDefault,
+                category: category || kind || 'custom',
                 startTime: new Date().toISOString(),
                 items: [...appState.items],
                 comparisons: []
@@ -1181,69 +2630,386 @@ Read book`
         // COMPARISON ENGINE
         // ========================================
 
+        // Generate all unique pairwise comparisons for the current appState.items
+        function generateComparisons() {
+            const items = appState.items || [];
+            const pairs = [];
+
+            for (let i = 0; i < items.length; i++) {
+                for (let j = i + 1; j < items.length; j++) {
+                    pairs.push({ itemA: i, itemB: j, completed: false });
+                }
+            }
+
+            // Shuffle pairs for varied ordering
+            for (let k = pairs.length - 1; k > 0; k--) {
+                const r = Math.floor(Math.random() * (k + 1));
+                [pairs[k], pairs[r]] = [pairs[r], pairs[k]];
+            }
+
+            appState.comparisons = pairs;
+            appState.currentPair = null;
+            updateProgress();
+        }
+
+        // Advance to the next comparison; render it or complete the duel
+        function nextComparison() {
+            if (!appState.comparisons || appState.comparisons.length === 0) {
+                // nothing to compare
+                completeDuel();
+                return;
+            }
+
+            // find next incomplete pair
+            const next = appState.comparisons.find(c => !c.completed);
+            if (!next) {
+                // all done
+                completeDuel();
+                return;
+            }
+
+            appState.currentPair = next;
+            renderComparison();
+            updateProgress();
+        }
+
         function renderComparison() {
             const area = document.getElementById('comparisonArea');
             const itemA = appState.items[appState.currentPair.itemA];
             const itemB = appState.items[appState.currentPair.itemB];
 
-            area.innerHTML = `
-                <div class="comparison-container">
-                    <div class="option-card" onclick="selectOption('A')" id="optionA">
-                        <h3>${itemA.name}</h3>
-                        ${itemA.description ? `<p>${itemA.description}</p>` : ''}
-                        <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
-                            Elo: ${Math.round(itemA.elo)} | W: ${itemA.wins} | L: ${itemA.losses}
+            // Build mini-previous HTML (left column) if there is at least one completed comparison
+            let miniHtml = '';
+            let miniTop = '';
+            let miniBottom = '';
+            if (appState.currentSession && appState.currentSession.comparisons && appState.currentSession.comparisons.length > 0) {
+                const comps = appState.currentSession.comparisons;
+                const lastRec = comps[comps.length - 1];
+                if (lastRec) {
+                    const aPrev = appState.items[lastRec.itemA] ? escapeHtml(appState.items[lastRec.itemA].name) : 'Item A';
+                    const bPrev = appState.items[lastRec.itemB] ? escapeHtml(appState.items[lastRec.itemB].name) : 'Item B';
+                    const winner = lastRec.winner;
+                    const aClass = (winner === 'A') ? 'mini-option selected' : 'mini-option';
+                    const bClass = (winner === 'B') ? 'mini-option selected' : 'mini-option';
+
+                    miniTop = `<div class="mini-prev" id="miniPrevTop"><div class="mini-option ${aClass.includes('selected') ? 'selected' : ''}" data-choice="A" data-index="${comps.length - 1}">${aPrev}<div class="mini-option-tooltip">Click to rewind</div></div></div>`;
+                    miniBottom = `<div class="mini-prev" id="miniPrevBottom"><div class="mini-option ${bClass.includes('selected') ? 'selected' : ''}" data-choice="B" data-index="${comps.length - 1}">${bPrev}<div class="mini-option-tooltip">Click to rewind</div></div></div>`;
+                }
+            }
+
+            // prepare the HTML; add has-mini class when mini content exists so CSS can animate card movement
+            const hasMini = Boolean(miniTop || miniBottom);
+            const containerHtml = `
+                <div style="display:flex;gap:20px;align-items:flex-start;">
+                    <div class="comparison-container ${hasMini ? 'has-mini' : ''}" style="flex:1">
+                        <div class="option-card" onclick="selectOption('A')" id="optionA">
+                            <h3>${itemA.name}</h3>
+                            ${itemA.description ? `<p>${itemA.description}</p>` : ''}
+                            <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
+                                Elo: ${Math.round(itemA.elo)} | W: ${itemA.wins} | L: ${itemA.losses}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="vs-divider">VS</div>
+                        <div class="vs-divider">
+                            ${miniTop}
+                            <div class="vs-text">VS</div>
+                            ${miniBottom}
+                        </div>
 
-                    <div class="option-card" onclick="selectOption('B')" id="optionB">
-                        <h3>${itemB.name}</h3>
-                        ${itemB.description ? `<p>${itemB.description}</p>` : ''}
-                        <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
-                            Elo: ${Math.round(itemB.elo)} | W: ${itemB.wins} | L: ${itemB.losses}
+                        <div class="option-card" onclick="selectOption('B')" id="optionB">
+                            <h3>${itemB.name}</h3>
+                            ${itemB.description ? `<p>${itemB.description}</p>` : ''}
+                            <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
+                                Elo: ${Math.round(itemB.elo)} | W: ${itemB.wins} | L: ${itemB.losses}
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
 
+            // If there are existing mini-option elements, animate them shrinking behind the new ones,
+            // then replace the HTML after a short delay so the shrink animation is visible.
+            const existingMiniOpts = document.querySelectorAll('.mini-prev .mini-option');
+            if (existingMiniOpts && existingMiniOpts.length > 0) {
+                existingMiniOpts.forEach(el => el.classList.add('shrink'));
+                setTimeout(() => {
+                    area.innerHTML = containerHtml;
+                    // attach listeners to any mini-option elements (top & bottom) if rendered
+                    area.querySelectorAll('.mini-option').forEach(opt => {
+                        opt.addEventListener('click', (e) => {
+                            const choice = opt.getAttribute('data-choice');
+                            const idx = parseInt(opt.getAttribute('data-index'), 10);
+                            if (!isNaN(idx)) {
+                                editAndReselect(idx, choice);
+                            }
+                        });
+                    });
+                }, 180);
+            } else {
+                area.innerHTML = containerHtml;
+                // attach listeners to any mini-option elements (top & bottom) if rendered
+                area.querySelectorAll('.mini-option').forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        const choice = opt.getAttribute('data-choice');
+                        const idx = parseInt(opt.getAttribute('data-index'), 10);
+                        if (!isNaN(idx)) {
+                            editAndReselect(idx, choice);
+                        }
+                    });
+                });
+            }
+
             document.getElementById('duelControls').style.display = 'flex';
+
+            // Update session items bar and mini history
+            renderSessionItemsBar();
+            renderDuelMiniHistory();
         }
 
-        function selectOption(choice) {
+        // Render the top bar of all session items as small squares, greying out when shown in completed comparisons
+        function renderSessionItemsBar() {
+            const bar = document.getElementById('sessionItemsBar');
+            if (!bar) return;
+            bar.innerHTML = '';
+            if (!appState.items || appState.items.length === 0) return;
+
+            const shown = new Set();
+            (appState.comparisons || []).forEach(c => { if (c.completed) { shown.add(c.itemA); shown.add(c.itemB); } });
+
+            appState.items.forEach((it, idx) => {
+                const div = document.createElement('div');
+                div.className = 'item-square' + (shown.has(idx) ? ' greyed' : '');
+                const label = it.name.length > 22 ? it.name.slice(0, 20) + '…' : it.name;
+                div.textContent = label;
+                bar.appendChild(div);
+            });
+        }
+
+        // Render the mini-history of the last 5 answered comparisons and make them clickable to edit
+        function renderDuelMiniHistory() {
+            // keep the below-history empty (we now show previous mini on the left)
+            const container = document.getElementById('duelHistory');
+            if (!container) return;
+            container.innerHTML = '';
+        }
+
+        // When clicking a mini-history entry, prepare to edit that comparison: rollback previous stats and show it as the active comparison
+        function editComparison(index) {
+            if (!appState.currentSession || !appState.currentSession.comparisons) return;
+            const rec = appState.currentSession.comparisons[index];
+            if (!rec) return;
+
+            const itemA = appState.items[rec.itemA];
+            const itemB = appState.items[rec.itemB];
+
+            // Rollback elos if prevElos exists
+            if (rec.prevElos) {
+                if (itemA) itemA.elo = rec.prevElos.a;
+                if (itemB) itemB.elo = rec.prevElos.b;
+            }
+
+            // Rollback win/loss/comparisons counts
+            if (rec.winner === 'A') {
+                if (itemA) itemA.wins = Math.max(0, (itemA.wins || 1) - 1);
+                if (itemB) itemB.losses = Math.max(0, (itemB.losses || 1) - 1);
+                if (itemA) itemA.comparisons = Math.max(0, (itemA.comparisons || 1) - 1);
+                if (itemB) itemB.comparisons = Math.max(0, (itemB.comparisons || 1) - 1);
+            } else if (rec.winner === 'B') {
+                if (itemB) itemB.wins = Math.max(0, (itemB.wins || 1) - 1);
+                if (itemA) itemA.losses = Math.max(0, (itemA.losses || 1) - 1);
+                if (itemA) itemA.comparisons = Math.max(0, (itemA.comparisons || 1) - 1);
+                if (itemB) itemB.comparisons = Math.max(0, (itemB.comparisons || 1) - 1);
+            }
+
+            // Mark the original pair object as not completed so UI reflects editable state
+            const pair = (appState.comparisons || []).find(p => p.itemA === rec.itemA && p.itemB === rec.itemB);
+            if (pair) pair.completed = false;
+
+            appState.editingComparisonIndex = index;
+            appState.currentPair = pair || { itemA: rec.itemA, itemB: rec.itemB, completed: false };
+            renderComparison();
+        }
+
+        // Rollback a previous comparison and immediately re-select the given choice
+        // index: index of the comparison record in currentSession.comparisons
+        // choice: 'A' or 'B' to re-apply
+    function editAndReselect(index, choice) {
+            // Defensive checks
+            if (!appState.currentSession || !appState.currentSession.comparisons) return;
+            const rec = appState.currentSession.comparisons[index];
+            if (!rec) return;
+
+            // Use existing rollback logic
+            editComparison(index);
+
+            // Ensure editing index is set so selectOption updates the existing record
+            appState.editingComparisonIndex = index;
+
+            // Small delay to allow render to update before triggering selection
+            setTimeout(() => {
+                // If the current pair matches the record we intended to edit, apply the choice
+                if (appState.currentPair && appState.currentPair.itemA === rec.itemA && appState.currentPair.itemB === rec.itemB) {
+                    animateSelectedCardToMini(choice, () => selectOption(choice, false));
+                } else {
+                    // Fallback: set currentPair explicitly then select
+                    appState.currentPair = { itemA: rec.itemA, itemB: rec.itemB, completed: false };
+                    renderComparison();
+                    setTimeout(() => animateSelectedCardToMini(choice, () => selectOption(choice, false)), 80);
+                }
+            }, 120);
+        }
+
+        // Animate the currently visible selected card down into the mini-prev slot
+        function animateSelectedCardToMini(choice, done) {
+            try {
+                const selId = choice === 'A' ? 'optionA' : 'optionB';
+                const selEl = document.getElementById(selId);
+                if (!selEl) { done(); return; }
+
+                // determine target mini slot (use top for A, bottom for B if present)
+                const targetId = choice === 'A' ? 'miniPrevTop' : 'miniPrevBottom';
+                let targetEl = document.getElementById(targetId);
+
+                // if no explicit mini exists, place target at center of vs-divider
+                const vs = document.querySelector('.vs-divider');
+                let createdTemp = false;
+                if (!targetEl && vs) {
+                    // create a temporary target placeholder
+                    targetEl = document.createElement('div');
+                    targetEl.style.width = '64px';
+                    targetEl.style.height = '30px';
+                    targetEl.style.display = 'block';
+                    vs.appendChild(targetEl);
+                    targetEl.dataset._temp = '1';
+                    createdTemp = true;
+                    // we'll remove it after animation
+                }
+
+                const fromRect = selEl.getBoundingClientRect();
+                const toRect = targetEl ? targetEl.getBoundingClientRect() : fromRect;
+
+                const clone = selEl.cloneNode(true);
+                clone.classList.add('anim-clone');
+                // size & position
+                clone.style.width = `${fromRect.width}px`;
+                clone.style.height = `${fromRect.height}px`;
+                clone.style.left = `${fromRect.left}px`;
+                clone.style.top = `${fromRect.top}px`;
+                clone.style.transform = 'translate(0,0) scale(1)';
+                clone.style.opacity = '1';
+                document.body.appendChild(clone);
+
+                // compute translation to align left edge and scale down
+                // align left edges (no horizontal offset) and move vertically to target
+                const deltaX = toRect.left - fromRect.left;
+                const deltaY = toRect.top - fromRect.top;
+                const scale = Math.min(0.6, (toRect.width / fromRect.width) || 0.6);
+
+                // trigger transition
+                requestAnimationFrame(() => {
+                    clone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+                    clone.style.opacity = '0.9';
+                });
+
+                // shrink existing mini options to make room
+                document.querySelectorAll('.mini-prev .mini-option').forEach(el => el.classList.add('shrink'));
+
+                // cleanup after transition
+                clone.addEventListener('transitionend', () => {
+                    clone.remove();
+                    // remove temporary placeholder if we created it
+                    try {
+                        if (createdTemp && targetEl && targetEl.parentNode) targetEl.parentNode.removeChild(targetEl);
+                    } catch (e) {}
+                    // call completion
+                    done();
+                });
+
+                // safety fallback
+                setTimeout(() => {
+                    if (document.body.contains(clone)) clone.remove();
+                    done();
+                }, 600);
+            } catch (e) {
+                console.error('animation failed', e);
+                done();
+            }
+        }
+
+        // Cancel session (quick abort) — discards progress and returns to dashboard
+        function cancelSession() {
+            if (!appState.currentSession) { switchTab('dashboard'); return; }
+            if (confirm('Cancel this session and discard progress?')) {
+                appState.currentSession = null;
+                appState.items = [];
+                appState.comparisons = [];
+                appState.currentPair = null;
+                saveToStorage();
+                switchTab('dashboard');
+            }
+        }
+
+        function selectOption(choice, animate = true) {
+            // If caller requested animation, run the clone animation then proceed without re-animating
+            if (animate) {
+                animateSelectedCardToMini(choice, () => selectOption(choice, false));
+                return;
+            }
             const itemA = appState.items[appState.currentPair.itemA];
             const itemB = appState.items[appState.currentPair.itemB];
+            const prevElos = { a: itemA.elo, b: itemB.elo };
 
-            // Record the comparison
-            appState.currentPair.completed = true;
-            appState.currentPair.winner = choice;
-            appState.currentPair.timestamp = new Date().toISOString();
+            // If we're editing an existing comparison, update it instead of appending a new one
+            const editingIndex = appState.editingComparisonIndex != null ? appState.editingComparisonIndex : null;
 
-            if (appState.currentSession) {
-                appState.currentSession.comparisons.push({...appState.currentPair});
-            }
-
-            // Update Elo ratings
+            // Apply Elo update and stats
+            let deltaElo = 0;
             if (choice === 'A') {
                 updateElo(itemA, itemB, 1);
-                itemA.wins++;
-                itemB.losses++;
+                itemA.wins = (itemA.wins || 0) + 1;
+                itemB.losses = (itemB.losses || 0) + 1;
+                deltaElo = itemA.elo - prevElos.a;
             } else {
                 updateElo(itemB, itemA, 1);
-                itemB.wins++;
-                itemA.losses++;
+                itemB.wins = (itemB.wins || 0) + 1;
+                itemA.losses = (itemA.losses || 0) + 1;
+                deltaElo = itemB.elo - prevElos.b;
             }
 
-            itemA.comparisons++;
-            itemB.comparisons++;
+            itemA.comparisons = (itemA.comparisons || 0) + 1;
+            itemB.comparisons = (itemB.comparisons || 0) + 1;
+
+            // Show Elo delta badge
+            showEloDelta(choice, Math.round(deltaElo));
+
+            // Record the comparison (either update existing or append)
+            const record = Object.assign({}, appState.currentPair, {
+                completed: true,
+                winner: choice,
+                timestamp: new Date().toISOString(),
+                prevElos
+            });
+
+            if (!appState.currentSession) appState.currentSession = { id: Date.now(), comparisons: [] };
+
+            if (editingIndex != null && appState.currentSession.comparisons[editingIndex]) {
+                // replace the existing comparison record
+                appState.currentSession.comparisons[editingIndex] = record;
+                appState.editingComparisonIndex = null;
+            } else {
+                appState.currentSession.comparisons.push(record);
+            }
+
+            // mark the pair as completed in the global comparisons list
+            if (appState.currentPair) appState.currentPair.completed = true;
 
             // Auto-save
-            if (appState.settings.autoSave) {
-                saveToStorage();
-            }
+            if (appState.settings.autoSave) saveToStorage();
 
-            // Next comparison
+            // Update UI and move to next
+            updateProgressRing();
+            renderDuelMiniHistory();
+            renderSessionItemsBar();
             setTimeout(nextComparison, 300);
         }
 
@@ -1258,14 +3024,30 @@ Read book`
         }
 
         function skipComparison() {
-            appState.currentPair.completed = true;
-            appState.currentPair.winner = 'skip';
-            appState.currentPair.timestamp = new Date().toISOString();
+            const itemA = appState.items[appState.currentPair.itemA];
+            const itemB = appState.items[appState.currentPair.itemB];
+            const prevElos = { a: itemA.elo, b: itemB.elo };
 
-            if (appState.currentSession) {
-                appState.currentSession.comparisons.push({...appState.currentPair});
+            const record = Object.assign({}, appState.currentPair, {
+                completed: true,
+                winner: 'skip',
+                timestamp: new Date().toISOString(),
+                prevElos
+            });
+
+            if (!appState.currentSession) appState.currentSession = { id: Date.now(), comparisons: [] };
+            if (appState.editingComparisonIndex != null) {
+                appState.currentSession.comparisons[appState.editingComparisonIndex] = record;
+                appState.editingComparisonIndex = null;
+            } else {
+                appState.currentSession.comparisons.push(record);
             }
 
+            // mark pair completed
+            if (appState.currentPair) appState.currentPair.completed = true;
+
+            renderDuelMiniHistory();
+            renderSessionItemsBar();
             nextComparison();
         }
 
@@ -1289,6 +3071,9 @@ Read book`
             saveToStorage();
             updateDashboardStats();
 
+            // Show completion celebration
+            showCompletionCelebration();
+
             document.getElementById('comparisonArea').innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">🎉</div>
@@ -1302,6 +3087,8 @@ Read book`
             `;
 
             document.getElementById('duelControls').style.display = 'none';
+            renderSessionItemsBar();
+            renderDuelMiniHistory();
         }
 
         function endDuel() {
@@ -1317,10 +3104,219 @@ Read book`
         // RESULTS RENDERING
         // ========================================
 
+        function buildResultsSection(session) {
+            const results = session.results || [];
+            const items = session.items || [];
+            const comparisons = session.comparisons || [];
+            
+            if (results.length === 0) return '';
+            
+            // Calculate stats
+            const totalComparisons = comparisons.length;
+            const maxElo = Math.max(...results.map(r => r.elo), 1200);
+            const minElo = Math.min(...results.map(r => r.elo), 800);
+            const avgElo = results.length > 0 ? (results.reduce((sum, r) => sum + r.elo, 0) / results.length).toFixed(0) : 0;
+
+            // Assign grades based on Elo
+            const gradedResults = results.map(item => {
+                const eloPercent = ((item.elo - minElo) / (maxElo - minElo)) * 100;
+                let grade = 'D';
+                if (eloPercent >= 90) grade = 'S';
+                else if (eloPercent >= 75) grade = 'A';
+                else if (eloPercent >= 60) grade = 'B';
+                else if (eloPercent >= 45) grade = 'C';
+                return { ...item, grade };
+            });
+
+            // Build HTML for a single session
+            let html = `
+                <div style="margin-bottom: 50px; padding-bottom: 40px; border-bottom: 2px solid var(--border);">
+                    <div style="margin-bottom: 25px;">
+                        <h2 style="color: var(--dark); margin-bottom: 8px; font-size: 1.4em;">📊 ${escapeHtml(session.title)}</h2>
+                        <p style="color: var(--gray); margin-bottom: 5px;">Started: ${new Date(session.startTime).toLocaleString()}</p>
+                        <p style="color: var(--gray); font-size: 0.9em;">Items: ${session.items.length} • Comparisons: ${totalComparisons}</p>
+                    </div>
+
+                    <!-- TOP HIGHLIGHTS -->
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="margin-bottom: 15px; color: var(--dark);">✨ Top Highlights</h3>
+                        <div class="highlights-container">
+                            <div class="highlight-card">
+                                <div class="highlight-icon">🏆</div>
+                                <div class="highlight-value">${results.length > 0 ? results[0].name : 'N/A'}</div>
+                                <div class="highlight-label">Champion Item</div>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon">⚡</div>
+                                <div class="highlight-value">${Math.round(maxElo)}</div>
+                                <div class="highlight-label">Highest Elo</div>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon">📈</div>
+                                <div class="highlight-value">${totalComparisons}</div>
+                                <div class="highlight-label">Total Comparisons</div>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon">🎯</div>
+                                <div class="highlight-value">${Math.round(avgElo)}</div>
+                                <div class="highlight-label">Average Elo</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAIN DASHBOARD GRID -->
+                    <div class="results-dashboard">
+                        <!-- RANKINGS TABLE -->
+                        <div class="results-section">
+                            <h3>🥇 Complete Rankings</h3>
+                            <table class="rankings-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;">Rank</th>
+                                        <th>Item</th>
+                                        <th style="width: 70px;">Grade</th>
+                                        <th style="width: 80px;">Elo</th>
+                                        <th style="width: 80px;">Win Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${gradedResults.map((item, idx) => `
+                                        <tr>
+                                            <td class="rank-number">#${idx + 1}</td>
+                                            <td class="item-name">${escapeHtml(item.name)}</td>
+                                            <td><span class="grade-badge grade-${item.grade.toLowerCase()}">${item.grade}</span></td>
+                                            <td class="elo-score">${Math.round(item.elo)}</td>
+                                            <td class="win-rate">${item.comparisons > 0 ? Math.round((item.wins / item.comparisons) * 100) : 0}%</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- ELO BAR CHART -->
+                        <div class="results-section">
+                            <h3>📊 Elo Distribution</h3>
+                            <div class="bar-chart">
+                                ${results.slice(0, 10).map(item => {
+                                    const eloPercent = (item.elo / maxElo) * 100;
+                                    return `
+                                        <div class="chart-row">
+                                            <div class="chart-label" title="${escapeHtml(item.name)}">${escapeHtml(item.name.substring(0, 15))}</div>
+                                            <div class="chart-bar-container">
+                                                <div class="chart-bar" style="width: ${eloPercent}%">${Math.round(item.elo)}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- TIER LIST -->
+                        <div class="results-section" style="grid-column: 1 / -1;">
+                            <h3>🎖️ Tier Rankings</h3>
+                            <div class="tier-list">
+                                ${['S', 'A', 'B', 'C', 'D'].map(tier => {
+                                    const tierItems = gradedResults.filter(item => item.grade === tier);
+                                    return `
+                                        <div class="tier-row">
+                                            <div class="tier-label tier-${tier.toLowerCase()}">${tier}</div>
+                                            <div class="tier-items">
+                                                ${tierItems.length > 0 
+                                                    ? tierItems.map(item => `<div class="tier-item">${escapeHtml(item.name)}</div>`).join('')
+                                                    : '<span style="opacity: 0.5;">No items in this tier</span>'
+                                                }
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- STATISTICS -->
+                        <div class="results-section">
+                            <h3>📈 Session Statistics</h3>
+                            <div class="stat-grid">
+                                <div class="stat-box">
+                                    <div class="stat-label">Total Items</div>
+                                    <div class="stat-value">${results.length}</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-label">Total Comparisons</div>
+                                    <div class="stat-value">${totalComparisons}</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-label">Avg Comparisons/Item</div>
+                                    <div class="stat-value">${results.length > 0 ? (totalComparisons / results.length).toFixed(1) : 0}</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-label">Elo Range</div>
+                                    <div class="stat-value">${Math.round(maxElo - minElo)}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HEAD-TO-HEAD MATRIX -->
+                        <div class="results-section">
+                            <h3>⚔️ Head-to-Head Results</h3>
+                            <div class="matrix-container">
+                                <table class="matrix-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 80px;">A vs B</th>
+                                            ${results.slice(0, 5).map(item => `<th style="width: 40px;">${escapeHtml(item.name.substring(0, 3))}</th>`).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${results.slice(0, 5).map(itemA => {
+                                            return `
+                                                <tr>
+                                                    <td class="matrix-label">${escapeHtml(itemA.name.substring(0, 8))}</td>
+                                                    ${results.slice(0, 5).map(itemB => {
+                                                        if (itemA.name === itemB.name) {
+                                                            return '<td>-</td>';
+                                                        }
+                                                        const h2h = comparisons.filter(c => 
+                                                            (items[c.itemA]?.name === itemA.name && items[c.itemB]?.name === itemB.name && c.winner === 'A') ||
+                                                            (items[c.itemB]?.name === itemA.name && items[c.itemA]?.name === itemB.name && c.winner === 'B')
+                                                        );
+                                                        const h2hLoss = comparisons.filter(c => 
+                                                            (items[c.itemA]?.name === itemA.name && items[c.itemB]?.name === itemB.name && c.winner === 'B') ||
+                                                            (items[c.itemB]?.name === itemA.name && items[c.itemA]?.name === itemB.name && c.winner === 'A')
+                                                        );
+                                                        const winClass = h2h.length > h2hLoss.length ? 'matrix-win' : h2h.length < h2hLoss.length ? 'matrix-loss' : '';
+                                                        return `<td class="${winClass}">${h2h.length}-${h2hLoss.length}</td>`;
+                                                    }).join('')}
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div style="margin-top: 25px; text-align: center; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-secondary btn-small" onclick="exportSessionResults(${session.id})">📥 Export</button>
+                        <button class="btn btn-primary btn-small" onclick="viewSessionDetails(${session.id})">👁️ Full View</button>
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
         function renderResults() {
             const area = document.getElementById('resultsArea');
 
-            if (!appState.currentSession || !appState.currentSession.results) {
+            // Show both current session (if exists) and all past sessions
+            const sessionsToShow = [];
+            
+            if (appState.currentSession && appState.currentSession.results && appState.currentSession.results.length > 0) {
+                sessionsToShow.push(appState.currentSession);
+            }
+
+            if (appState.sessions.length === 0 && sessionsToShow.length === 0) {
                 area.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📊</div>
@@ -1331,55 +3327,52 @@ Read book`
                 return;
             }
 
-            const results = appState.currentSession.results;
-            const maxElo = Math.max(...results.map(r => r.elo));
+            let html = `<div style="margin-bottom: 30px;">
+                <h2 style="color: var(--dark); margin-bottom: 20px; font-size: 1.6em;">🏆 All Results</h2>
+                <p style="color: var(--gray);">Total Sessions: ${appState.sessions.length}</p>
+            </div>`;
 
-            let html = '<table class="results-table"><thead><tr>';
-            html += '<th>Rank</th><th>Item</th><th>Elo Rating</th><th>Win Rate</th><th>Record</th>';
-            html += '</tr></thead><tbody>';
-
-            results.forEach((item, index) => {
-                const rank = index + 1;
-                let rankBadgeClass = '';
-                if (rank === 1) rankBadgeClass = 'gold';
-                else if (rank === 2) rankBadgeClass = 'silver';
-                else if (rank === 3) rankBadgeClass = 'bronze';
-
-                const winRate = item.comparisons > 0 
-                    ? Math.round((item.wins / item.comparisons) * 100)
-                    : 0;
-
-                const scorePercent = (item.elo / maxElo) * 100;
-
-                html += `
-                    <tr>
-                        <td><span class="rank-badge ${rankBadgeClass}">${rank}</span></td>
-                        <td>
-                            <strong>${item.name}</strong>
-                            ${item.description ? `<br><small style="color: var(--gray);">${item.description}</small>` : ''}
-                        </td>
-                        <td>
-                            <strong>${Math.round(item.elo)}</strong>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: ${scorePercent}%"></div>
-                            </div>
-                        </td>
-                        <td>${winRate}%</td>
-                        <td>${item.wins}W - ${item.losses}L</td>
-                    </tr>
-                `;
+            // Add all past sessions
+            [...appState.sessions].reverse().forEach(session => {
+                if (session.results && session.results.length > 0) {
+                    html += buildResultsSection(session);
+                }
             });
 
-            html += '</tbody></table>';
-
-            html += `
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-primary" onclick="exportResults()">📥 Export Results</button>
-                    <button class="btn btn-secondary" onclick="startNewDuel()">🔄 New Duel</button>
-                </div>
-            `;
-
             area.innerHTML = html;
+        }
+
+        function viewSessionDetails(sessionId) {
+            const session = appState.sessions.find(s => s.id === sessionId);
+            if (!session) return;
+            appState.currentSession = session;
+            renderResults();
+        }
+
+        function exportSessionResults(sessionId) {
+            const session = appState.sessions.find(s => s.id === sessionId);
+            if (!session || !session.results) return;
+            
+            const resultsCSV = session.results.map(item => 
+                `${item.name},${Math.round(item.elo)},${item.wins},${item.comparisons},${item.comparisons > 0 ? Math.round((item.wins/item.comparisons)*100) : 0}%`
+            ).join('\n');
+            
+            const csv = `Session: ${session.title}\nDate: ${new Date(session.startTime).toLocaleString()}\n\nRank,Item,Elo,Wins,Comparisons,Win Rate\n${
+                session.results.map((item, idx) => 
+                    `${idx+1},${item.name},${Math.round(item.elo)},${item.wins},${item.comparisons},${item.comparisons > 0 ? Math.round((item.wins/item.comparisons)*100) : 0}%`
+                ).join('\n')
+            }`;
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `results-${session.id}-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        function downloadChartAsImage() {
+            alert('Chart download feature would require canvas implementation. In a production app, this would generate a PNG/PDF of the results dashboard.');
         }
 
         function startNewDuel() {
@@ -1414,12 +3407,16 @@ Read book`
                     : 'Incomplete';
 
                 const topThree = session.results ? session.results.slice(0, 3) : [];
+                const isSelected = appState.bulkSelectMode && appState.selectedSessions && appState.selectedSessions.includes(session.id);
 
                 html += `
-                    <div class="session-card">
+                    <div class="session-card ${isSelected ? 'selected' : ''}" data-session-id="${session.id}">
                         <div class="session-header">
-                            <div class="session-title">${session.title}</div>
-                            <div class="session-date">${new Date(session.startTime).toLocaleString()}</div>
+                            ${appState.bulkSelectMode ? `<input type="checkbox" class="bulk-checkbox" data-session-id="${session.id}" ${isSelected ? 'checked' : ''} onchange="toggleSessionSelect(${session.id})">` : ''}
+                            <div>
+                                <div class="session-title">${session.title}</div>
+                                <div class="session-date">${new Date(session.startTime).toLocaleString()}</div>
+                            </div>
                         </div>
                         <div class="session-stats">
                             <div class="session-stat">⏱️ Duration: <strong>${duration} min</strong></div>
@@ -1434,14 +3431,128 @@ Read book`
                                 ).join(', ')}
                             </div>
                         ` : ''}
-                        <button class="btn btn-small btn-secondary" onclick="viewSession(${session.id})" style="margin-top: 10px;">
+                        ${!appState.bulkSelectMode ? `<button class="btn btn-small btn-secondary" onclick="viewSession(${session.id})" style="margin-top: 10px;">
                             View Details
-                        </button>
+                        </button>` : ''}
                     </div>
                 `;
             });
 
             area.innerHTML = html;
+        }
+
+        function renderItemsDatabase() {
+            const area = document.getElementById('itemsDatabaseArea');
+            const searchTerm = (document.getElementById('itemsSearchInput')?.value || '').toLowerCase();
+            const categoryFilter = document.getElementById('itemsFilterCategory')?.value || '';
+
+            // Collect all unique items from all sessions
+            const itemsMap = {};
+            const categoriesSet = new Set();
+            
+            appState.sessions.forEach(session => {
+                session.items?.forEach(item => {
+                    if (!itemsMap[item.name]) {
+                        itemsMap[item.name] = {
+                            name: item.name,
+                            category: item.category || 'Uncategorized',
+                            elo: item.elo,
+                            wins: item.wins || 0,
+                            comparisons: item.comparisons || 0,
+                            sessions: [],
+                            addedDate: item.dateAdded || session.startTime,
+                            firstSeen: item.dateAdded || session.startTime
+                        };
+                    }
+                    if (!itemsMap[item.name].sessions.includes(session.id)) {
+                        itemsMap[item.name].sessions.push(session.id);
+                    }
+                    itemsMap[item.name].elo = item.elo;
+                    itemsMap[item.name].wins = item.wins || 0;
+                    itemsMap[item.name].comparisons = item.comparisons || 0;
+                    categoriesSet.add(item.category || 'Uncategorized');
+                });
+            });
+
+            // Update category filter dropdown
+            const categorySelect = document.getElementById('itemsFilterCategory');
+            if (categorySelect && categorySelect.options.length <= 1) {
+                [...categoriesSet].sort().forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categorySelect.appendChild(option);
+                });
+            }
+
+            const items = Object.values(itemsMap);
+
+            if (items.length === 0) {
+                area.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <h3>No Items Yet</h3>
+                        <p>Items from duel sessions will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Filter items
+            const filtered = items.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchTerm) || 
+                                     item.category.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || item.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            }).sort((a, b) => b.elo - a.elo);
+
+            // Build table
+            let html = `
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortItemsBy('name')">📝 Item Name</th>
+                            <th class="sortable" onclick="sortItemsBy('category')">🏷️ Category</th>
+                            <th class="sortable" onclick="sortItemsBy('elo')">⚡ Elo</th>
+                            <th class="sortable" onclick="sortItemsBy('wins')">🏆 Wins</th>
+                            <th class="sortable" onclick="sortItemsBy('comparisons')">⚔️ Comparisons</th>
+                            <th class="sortable" onclick="sortItemsBy('winRate')">📊 Win Rate</th>
+                            <th>📅 Sessions</th>
+                            <th>📆 First Seen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map(item => {
+                            const winRate = item.comparisons > 0 ? Math.round((item.wins / item.comparisons) * 100) : 0;
+                            const firstSeenDate = new Date(item.firstSeen).toLocaleDateString();
+                            return `
+                                <tr>
+                                    <td class="item-name">${escapeHtml(item.name)}</td>
+                                    <td><span class="category-tag">${escapeHtml(item.category)}</span></td>
+                                    <td><strong>${Math.round(item.elo)}</strong></td>
+                                    <td><span class="stat-badge">${item.wins}</span></td>
+                                    <td><span class="stat-badge">${item.comparisons}</span></td>
+                                    <td><strong style="color: var(--success);">${winRate}%</strong></td>
+                                    <td><span class="sessions-tag">${item.sessions.length} 📂</span></td>
+                                    <td>${firstSeenDate}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <div style="margin-top: 20px; padding: 15px; background: var(--light); border-radius: 8px; color: var(--gray);">
+                    <strong>Total Items:</strong> ${items.length} | 
+                    <strong>Showing:</strong> ${filtered.length} | 
+                    <strong>Categories:</strong> ${categoriesSet.size}
+                </div>
+            `;
+
+            area.innerHTML = html;
+        }
+
+        function sortItemsBy(field) {
+            // Placeholder for sorting - can be enhanced with actual sorting logic
+            renderItemsDatabase();
         }
 
         function viewSession(sessionId) {
@@ -1638,25 +3749,53 @@ Read book`
                 if (!appState.settings.keyboardShortcuts) return;
                 if (!appState.currentPair) return;
 
-                if (e.key === 'ArrowLeft') {
+                const key = e.key.toLowerCase();
+                
+                // Left / A for option A
+                if (e.key === 'ArrowLeft' || key === 'a') {
                     e.preventDefault();
                     selectOption('A');
-                } else if (e.key === 'ArrowRight') {
+                }
+                // Right / D for option B
+                else if (e.key === 'ArrowRight' || key === 'd') {
                     e.preventDefault();
                     selectOption('B');
-                } else if (e.key.toLowerCase() === 's') {
+                }
+                // Space / Enter to confirm (if needed for future)
+                else if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    // Future: could use this for confirmation
+                }
+                // S for skip
+                else if (key === 's') {
                     e.preventDefault();
                     skipComparison();
-                } else if (e.key === '?') {
+                }
+                // U for undo
+                else if (key === 'u') {
+                    e.preventDefault();
+                    undoLastComparison();
+                }
+                // ? for help
+                else if (e.key === '?') {
                     e.preventDefault();
                     toggleShortcutsHint();
                 }
             });
         }
 
+        function undoLastComparison() {
+            if (!appState.currentSession || !appState.currentSession.comparisons || appState.currentSession.comparisons.length === 0) {
+                alert('No comparisons to undo');
+                return;
+            }
+            const lastIdx = appState.currentSession.comparisons.length - 1;
+            editComparison(lastIdx);
+        }
+
         function toggleShortcutsHint() {
             const hint = document.getElementById('shortcutsHint');
-            hint.classList.toggle('visible');
+            if (hint) hint.classList.toggle('visible');
         }
 
         // ========================================
@@ -1745,6 +3884,240 @@ Read book`
             }
 
             alert('In a production app, this would update your Notion database with final rankings, Elo scores, and duel statistics.');
+        }
+
+        // ========================================
+        // DARK MODE
+        // ========================================
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('duelAppDarkMode', isDarkMode);
+            updateDarkModeToggle();
+        }
+
+        function updateDarkModeToggle() {
+            const btn = document.getElementById('darkModeToggle');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️';
+            } else {
+                btn.textContent = '🌙';
+            }
+        }
+
+        function initDarkMode() {
+            const savedMode = localStorage.getItem('duelAppDarkMode') === 'true';
+            if (savedMode) {
+                document.body.classList.add('dark-mode');
+            }
+            updateDarkModeToggle();
+        }
+
+        // ========================================
+        // PROGRESS RING
+        // ========================================
+        function initProgressRing() {
+            const container = document.createElement('div');
+            container.className = 'progress-ring-container';
+            container.id = 'progressRingContainer';
+            container.innerHTML = `
+                <svg class="progress-ring-svg" viewBox="0 0 72 72">
+                    <circle class="progress-ring-bg" cx="36" cy="36" r="36"></circle>
+                    <circle class="progress-ring-fill" id="progressRingFill" cx="36" cy="36" r="36"></circle>
+                </svg>
+                <div class="progress-ring-text">
+                    <div class="progress-ring-percent" id="progressPercent">0%</div>
+                    <div class="progress-ring-label">Complete</div>
+                </div>
+            `;
+            document.body.appendChild(container);
+        }
+
+        function updateProgressRing() {
+            if (!appState.currentSession || !appState.currentSession.comparisons) return;
+            const total = appState.currentSession.comparisons.length;
+            const completed = appState.currentSession.comparisons.filter(c => c.completed).length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            const fill = document.getElementById('progressRingFill');
+            if (fill) {
+                const offset = 226 * (1 - percent / 100);
+                fill.style.strokeDashoffset = offset;
+            }
+            
+            const percentEl = document.getElementById('progressPercent');
+            if (percentEl) {
+                percentEl.textContent = percent + '%';
+            }
+        }
+
+        // ========================================
+        // ELO DELTA BADGE
+        // ========================================
+        function showEloDelta(choice, deltaElo) {
+            const selId = choice === 'A' ? 'optionA' : 'optionB';
+            const cardEl = document.getElementById(selId);
+            if (!cardEl) return;
+
+            const rect = cardEl.getBoundingClientRect();
+            const badge = document.createElement('div');
+            badge.className = `elo-delta ${deltaElo >= 0 ? 'positive' : 'negative'}`;
+            badge.textContent = (deltaElo >= 0 ? '+' : '') + deltaElo;
+            badge.style.left = (rect.left + rect.width / 2) + 'px';
+            badge.style.top = rect.top + 'px';
+            
+            document.body.appendChild(badge);
+            
+            setTimeout(() => badge.remove(), 1200);
+        }
+
+        // ========================================
+        // KEYBOARD SHORTCUTS BAR
+        // ========================================
+        function initKeyboardShortcutsBar() {
+            const bar = document.createElement('div');
+            bar.className = 'keyboard-shortcuts-bar';
+            bar.id = 'keyboardShortcutsBar';
+            bar.innerHTML = `
+                <div class="shortcut-item">
+                    <span class="shortcut-key">←</span> or <span class="shortcut-key">A</span> Select Left
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">→</span> or <span class="shortcut-key">D</span> Select Right
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Space</span> or <span class="shortcut-key">Enter</span> Confirm
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">U</span> Undo
+                </div>
+            `;
+            document.body.appendChild(bar);
+        }
+
+        // ========================================
+        // COMPLETION CELEBRATION
+        // ========================================
+        function showCompletionCelebration() {
+            // Confetti
+            startConfetti();
+
+            // Modal with stats
+            if (!appState.currentSession) return;
+            
+            const total = appState.currentSession.comparisons.length;
+            const items = appState.currentSession.items || [];
+            
+            // Calculate stats
+            const avgTime = total > 0 ? (Math.random() * 30 + 5).toFixed(1) : 0; // Demo timing
+            
+            // Sort items by Elo (descending) for top 3
+            const topItems = [...items]
+                .sort((a, b) => b.elo - a.elo)
+                .slice(0, 3);
+
+            const modal = document.createElement('div');
+            modal.className = 'completion-modal';
+            modal.innerHTML = `
+                <h2>🎉 Session Complete!</h2>
+                <div class="stat-row">
+                    <span class="stat-label">Total Comparisons:</span>
+                    <span class="stat-value">${total}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Average Decision Time:</span>
+                    <span class="stat-value">${avgTime}s</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Items Ranked:</span>
+                    <span class="stat-value">${items.length}</span>
+                </div>
+                <div class="top-items">
+                    <strong style="display: block; margin-bottom: 10px;">🏆 Top 3 Winners:</strong>
+                    ${topItems.map((item, idx) => `
+                        <div class="top-item">
+                            <span>
+                                <span class="medal medal-${idx + 1}">${['🥇', '🥈', '🥉'][idx]}</span>
+                                <strong>${item.name}</strong>
+                            </span>
+                            <span style="color: var(--primary); font-weight: bold;">${item.elo.toFixed(0)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-primary" onclick="closeCompletionModal()" style="margin-top: 20px; width: 100%;">
+                    ✨ Return to Dashboard
+                </button>
+            `;
+
+            const backdrop = document.createElement('div');
+            backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;';
+            backdrop.id = 'completionBackdrop';
+            backdrop.onclick = closeCompletionModal;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        }
+
+        function closeCompletionModal() {
+            const modal = document.querySelector('.completion-modal');
+            const backdrop = document.getElementById('completionBackdrop');
+            if (modal) modal.remove();
+            if (backdrop) backdrop.remove();
+        }
+
+        // ========================================
+        // CONFETTI ANIMATION
+        // ========================================
+        function startConfetti() {
+            const canvas = document.getElementById('confettiCanvas') || createConfettiCanvas();
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = 100;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -10,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: Math.random() * 3 + 4,
+                    life: 1,
+                    size: Math.random() * 6 + 2,
+                    color: ['#6366f1', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'][Math.floor(Math.random() * 5)]
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    p.life -= 0.01;
+                    p.vy += 0.1; // gravity
+
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                });
+
+                if (particles.some(p => p.life > 0)) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                }
+            }
+
+            animate();
+        }
+
+        function createConfettiCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'confettiCanvas';
+            document.body.appendChild(canvas);
+            return canvas;
         }
     </script>
 </body>
