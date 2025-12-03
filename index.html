@@ -222,6 +222,13 @@
             opacity: 0.95;
         }
 
+        .tag .tag-x {
+            margin-left: 8px;
+            font-weight: 800;
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
         .tag-0 { background: var(--primary); }
         .tag-1 { background: var(--secondary); }
         .tag-2 { background: var(--success); color: white; }
@@ -229,6 +236,57 @@
         .tag-4 { background: var(--danger); }
         .tag-5 { background: var(--dark); }
         .tag-6 { background: #7c3aed; }
+
+        /* Session item squares shown on the duel arena */
+        .item-squares {
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+            margin-bottom:12px;
+        }
+
+        .item-square {
+            padding:8px 10px;
+            border-radius:8px;
+            background:var(--light);
+            color:var(--dark);
+            border:1px solid var(--border);
+            font-weight:600;
+            font-size:0.85em;
+            min-width:80px;
+            text-align:center;
+            opacity:1;
+            transition:all 0.2s;
+        }
+
+        .item-square.greyed {
+            opacity:0.4;
+            background:#f3f4f6;
+            color:var(--gray);
+        }
+
+        /* Mini history listing in duel arena */
+        .mini-history {
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-top:10px;
+        }
+
+        .mini-history .history-card {
+            background: white;
+            border:1px solid var(--border);
+            padding:8px 10px;
+            border-radius:8px;
+            font-size:0.85em;
+            cursor:pointer;
+            display:flex;
+            gap:8px;
+            align-items:center;
+            min-width:160px;
+        }
+
+        .mini-history .history-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
 
         /* Buttons */
         .btn {
@@ -597,6 +655,37 @@
             margin-bottom: 20px;
             opacity: 0.5;
         }
+
+        /* Modal for creating sessions (in-page) */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-backdrop.visible { display: flex; }
+
+        .modal {
+            background: white;
+            width: 720px;
+            max-width: 95%;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .modal h3 { margin-bottom: 8px; }
+
+        .modal .modal-row { display:flex; gap:10px; margin-bottom:10px; }
+        .modal .modal-row .col { flex:1; }
+
+        .modal .library-list { max-height: 200px; overflow:auto; border:1px solid var(--border); padding:8px; border-radius:8px; }
+
+        .tag.removable { cursor: pointer; opacity: 0.95; }
     </style>
 </head>
 <body>
@@ -649,7 +738,7 @@
             </div>
 
             <div style="margin-top: 30px;">
-                <button class="btn btn-primary btn-full" onclick="createCustomSession()">
+                <button class="btn btn-primary btn-full" onclick="openCreateSessionModal()">
                     ➕ Create Custom Session
                 </button>
             </div>
@@ -665,6 +754,12 @@
                     <div class="progress-text" id="progressText">Select items to begin dueling</div>
                 </div>
 
+                <!-- Session items bar: shows all items as small squares, greyed out when shown -->
+                <div id="sessionItemsBar" class="item-squares" aria-hidden="false"></div>
+
+                <!-- Mini history of last answered comparisons -->
+                <div id="duelHistory" class="mini-history" aria-live="polite"></div>
+
                 <div id="comparisonArea">
                     <div class="empty-state">
                         <div class="empty-state-icon">🎯</div>
@@ -676,6 +771,7 @@
                 <div id="duelControls" style="display: none; text-align: center; margin-top: 20px; gap: 10px; display: flex; justify-content: center;">
                     <button class="btn btn-secondary" onclick="skipComparison()">⏭️ Skip</button>
                     <button class="btn btn-danger" onclick="endDuel()">❌ End Session</button>
+                    <button class="btn btn-secondary" onclick="cancelSession()">↩️ Cancel Session</button>
                 </div>
             </div>
         </div>
@@ -792,6 +888,42 @@
         <kbd>→</kbd> Choose right<br>
         <kbd>S</kbd> Skip comparison<br>
         <kbd>?</kbd> Toggle this hint
+    </div>
+
+    <!-- Create Session Modal -->
+    <div class="modal-backdrop" id="createSessionBackdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createSessionTitle">
+            <h3 id="createSessionTitle">➕ Create Session</h3>
+
+            <div class="modal-row">
+                <div class="col">
+                    <label>Session Name</label>
+                    <input id="modalSessionName" class="form-control" placeholder="e.g. Weekend Goals" />
+                </div>
+                <div class="col">
+                    <label>Category</label>
+                    <input id="modalSessionCategory" class="form-control" placeholder="e.g. goals, skills, values" />
+                </div>
+            </div>
+
+            <div style="margin-bottom:8px;">
+                <label style="font-weight:600;">Pick items from your library</label>
+                <div id="modalLibrary" class="library-list"></div>
+            </div>
+
+            <div style="margin-bottom:8px;">
+                <label style="font-weight:600;">Add new items (one per line)</label>
+                <textarea id="modalNewItems" class="form-control" placeholder="New item per line"></textarea>
+            </div>
+
+            <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;">
+                <div style="color:var(--gray);font-size:0.9em;">Select library items and/or add new ones. At least 2 items required.</div>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn btn-secondary" onclick="closeCreateSessionModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveSessionFromModal()">Start Session</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1107,10 +1239,115 @@
             const colorClasses = ['tag-0','tag-1','tag-2','tag-3','tag-4','tag-5','tag-6'];
             container.innerHTML = selected.map((name, idx) => {
                 const cls = colorClasses[idx % colorClasses.length];
-                // use a span (non-clickable) and escape basic HTML
+                // use a span and escape basic HTML
                 const safe = String(name).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                return `<span class="tag ${cls}" title="${safe}">${safe}</span>`;
+                return `<span class="tag removable ${cls}" data-name="${safe}" title="Click to remove">${safe}</span>`;
             }).join('');
+
+            // Allow clicking a tag to deselect the corresponding option in the multi-select
+            container.querySelectorAll('.tag.removable').forEach(tagEl => {
+                tagEl.addEventListener('click', (e) => {
+                    const name = tagEl.getAttribute('data-name');
+                    for (const opt of sel.options) {
+                        if (opt.value === name) {
+                            opt.selected = false;
+                        }
+                    }
+                    renderPresetTags(presetId);
+                    // also update the select's change listeners if any
+                    sel.dispatchEvent(new Event('change'));
+                });
+            });
+        }
+
+        // -------------------------
+        // Create Session Modal JS
+        // -------------------------
+        function openCreateSessionModal() {
+            const backdrop = document.getElementById('createSessionBackdrop');
+            const name = document.getElementById('modalSessionName');
+            const category = document.getElementById('modalSessionCategory');
+            const library = document.getElementById('modalLibrary');
+
+            // populate library from presets (unique names)
+            const existing = [];
+            presets.forEach(p => p.items.forEach(it => { if (!existing.includes(it.name)) existing.push(it.name); }));
+
+            library.innerHTML = '';
+            if (existing.length === 0) {
+                library.innerHTML = '<div style="color:var(--gray);">No items in library yet.</div>';
+            } else {
+                const ul = document.createElement('div');
+                existing.forEach((n, i) => {
+                    const id = `lib-${i}`;
+                    const line = document.createElement('div');
+                    line.style.display = 'flex';
+                    line.style.alignItems = 'center';
+                    line.style.gap = '8px';
+                    line.innerHTML = `<input type="checkbox" id="${id}" value="${n}" /><label for="${id}" style="margin-left:6px;">${n}</label>`;
+                    ul.appendChild(line);
+                });
+                library.appendChild(ul);
+            }
+
+            // clear inputs
+            name.value = '';
+            category.value = '';
+            document.getElementById('modalNewItems').value = '';
+
+            backdrop.classList.add('visible');
+            backdrop.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeCreateSessionModal() {
+            const backdrop = document.getElementById('createSessionBackdrop');
+            backdrop.classList.remove('visible');
+            backdrop.setAttribute('aria-hidden', 'true');
+        }
+
+        function saveSessionFromModal() {
+            const name = document.getElementById('modalSessionName').value.trim();
+            const category = document.getElementById('modalSessionCategory').value.trim();
+            const newText = document.getElementById('modalNewItems').value;
+            const library = document.getElementById('modalLibrary');
+
+            // collect checked library items
+            const chosen = [];
+            library.querySelectorAll('input[type=checkbox]').forEach(cb => { if (cb.checked) chosen.push(cb.value); });
+
+            // collect new items
+            if (newText && newText.trim()) {
+                newText.split('\n').map(s => s.trim()).filter(s => s).forEach(s => { if (!chosen.includes(s)) chosen.push(s); });
+            }
+
+            if (chosen.length < 2) {
+                alert('Please choose or add at least 2 items for the session.');
+                return;
+            }
+
+            // Persist new items into user library preset
+            const userPresetId = 'user-library';
+            let userPreset = presets.find(p => p.id === userPresetId);
+            if (!userPreset) {
+                userPreset = { id: userPresetId, title: 'User Library', description: 'Items you added', items: [] };
+                presets.push(userPreset);
+            }
+
+            chosen.forEach(nameItem => {
+                const exists = presets.some(p => p.items.some(i => i.name === nameItem));
+                if (!exists) userPreset.items.push({ name: nameItem, description: '' });
+            });
+            savePresetsToStorage();
+            renderPresets();
+
+            // Build session
+            appState.items = chosen.map(n => ({ name: n, description: '', elo: appState.settings.defaultElo, wins:0, losses:0, comparisons:0 }));
+            appState.currentSession = { id: Date.now(), presetId: 'custom', title: name || 'Custom Session', category: category || 'custom', startTime: new Date().toISOString(), items: [...appState.items], comparisons: [] };
+
+            closeCreateSessionModal();
+            generateComparisons();
+            switchTab('duel');
+            nextComparison();
         }
 
         function savePresetEdits(presetId) {
@@ -1304,6 +1541,49 @@
         // COMPARISON ENGINE
         // ========================================
 
+        // Generate all unique pairwise comparisons for the current appState.items
+        function generateComparisons() {
+            const items = appState.items || [];
+            const pairs = [];
+
+            for (let i = 0; i < items.length; i++) {
+                for (let j = i + 1; j < items.length; j++) {
+                    pairs.push({ itemA: i, itemB: j, completed: false });
+                }
+            }
+
+            // Shuffle pairs for varied ordering
+            for (let k = pairs.length - 1; k > 0; k--) {
+                const r = Math.floor(Math.random() * (k + 1));
+                [pairs[k], pairs[r]] = [pairs[r], pairs[k]];
+            }
+
+            appState.comparisons = pairs;
+            appState.currentPair = null;
+            updateProgress();
+        }
+
+        // Advance to the next comparison; render it or complete the duel
+        function nextComparison() {
+            if (!appState.comparisons || appState.comparisons.length === 0) {
+                // nothing to compare
+                completeDuel();
+                return;
+            }
+
+            // find next incomplete pair
+            const next = appState.comparisons.find(c => !c.completed);
+            if (!next) {
+                // all done
+                completeDuel();
+                return;
+            }
+
+            appState.currentPair = next;
+            renderComparison();
+            updateProgress();
+        }
+
         function renderComparison() {
             const area = document.getElementById('comparisonArea');
             const itemA = appState.items[appState.currentPair.itemA];
@@ -1332,41 +1612,58 @@
             `;
 
             document.getElementById('duelControls').style.display = 'flex';
+
+            // Update session items bar and mini history
+            renderSessionItemsBar();
+            renderDuelMiniHistory();
         }
 
         function selectOption(choice) {
             const itemA = appState.items[appState.currentPair.itemA];
             const itemB = appState.items[appState.currentPair.itemB];
+            const prevElos = { a: itemA.elo, b: itemB.elo };
 
-            // Record the comparison
-            appState.currentPair.completed = true;
-            appState.currentPair.winner = choice;
-            appState.currentPair.timestamp = new Date().toISOString();
+            // If we're editing an existing comparison, update it instead of appending a new one
+            const editingIndex = appState.editingComparisonIndex != null ? appState.editingComparisonIndex : null;
 
-            if (appState.currentSession) {
-                appState.currentSession.comparisons.push({...appState.currentPair});
-            }
-
-            // Update Elo ratings
+            // Apply Elo update and stats
             if (choice === 'A') {
                 updateElo(itemA, itemB, 1);
-                itemA.wins++;
-                itemB.losses++;
+                itemA.wins = (itemA.wins || 0) + 1;
+                itemB.losses = (itemB.losses || 0) + 1;
             } else {
                 updateElo(itemB, itemA, 1);
-                itemB.wins++;
-                itemA.losses++;
+                itemB.wins = (itemB.wins || 0) + 1;
+                itemA.losses = (itemA.losses || 0) + 1;
             }
 
-            itemA.comparisons++;
-            itemB.comparisons++;
+            itemA.comparisons = (itemA.comparisons || 0) + 1;
+            itemB.comparisons = (itemB.comparisons || 0) + 1;
+
+            // Record the comparison (either update existing or append)
+            const record = Object.assign({}, appState.currentPair, {
+                completed: true,
+                winner: choice,
+                timestamp: new Date().toISOString(),
+                prevElos
+            });
+
+            if (!appState.currentSession) appState.currentSession = { id: Date.now(), comparisons: [] };
+
+            if (editingIndex != null && appState.currentSession.comparisons[editingIndex]) {
+                // replace the existing comparison record
+                appState.currentSession.comparisons[editingIndex] = record;
+                appState.editingComparisonIndex = null;
+            } else {
+                appState.currentSession.comparisons.push(record);
+            }
 
             // Auto-save
-            if (appState.settings.autoSave) {
-                saveToStorage();
-            }
+            if (appState.settings.autoSave) saveToStorage();
 
-            // Next comparison
+            // Update UI and move to next
+            renderDuelMiniHistory();
+            renderSessionItemsBar();
             setTimeout(nextComparison, 300);
         }
 
@@ -1381,14 +1678,27 @@
         }
 
         function skipComparison() {
-            appState.currentPair.completed = true;
-            appState.currentPair.winner = 'skip';
-            appState.currentPair.timestamp = new Date().toISOString();
+            const itemA = appState.items[appState.currentPair.itemA];
+            const itemB = appState.items[appState.currentPair.itemB];
+            const prevElos = { a: itemA.elo, b: itemB.elo };
 
-            if (appState.currentSession) {
-                appState.currentSession.comparisons.push({...appState.currentPair});
+            const record = Object.assign({}, appState.currentPair, {
+                completed: true,
+                winner: 'skip',
+                timestamp: new Date().toISOString(),
+                prevElos
+            });
+
+            if (!appState.currentSession) appState.currentSession = { id: Date.now(), comparisons: [] };
+            if (appState.editingComparisonIndex != null) {
+                appState.currentSession.comparisons[appState.editingComparisonIndex] = record;
+                appState.editingComparisonIndex = null;
+            } else {
+                appState.currentSession.comparisons.push(record);
             }
 
+            renderDuelMiniHistory();
+            renderSessionItemsBar();
             nextComparison();
         }
 
@@ -1425,6 +1735,8 @@
             `;
 
             document.getElementById('duelControls').style.display = 'none';
+            renderSessionItemsBar();
+            renderDuelMiniHistory();
         }
 
         function endDuel() {
