@@ -222,6 +222,71 @@
             opacity: 0.95;
         }
 
+        .tag { display:inline-flex; align-items:center; gap:8px; }
+        .tag .tag-label { pointer-events: none; }
+        .tag .tag-x {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background: rgba(0,0,0,0.12);
+            color: white;
+            font-weight: 700;
+            line-height: 18px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Mini previous comparison shown to the left of the main comparison cards */
+        .mini-prev { width: 95px; display:flex; flex-direction:column; gap:6px; align-items:flex-start; align-self:flex-start; }
+        /* make mini options compact, left-aligned, narrow with light background and left accent bar */
+        .mini-prev .mini-option { 
+            padding:3px 8px;
+            border-radius:4px;
+            border:none;
+            border-left:3px solid transparent;
+            background:#f3f4f6;
+            cursor:pointer;
+            font-weight:600;
+            opacity:0.65;
+            font-size:0.55em;
+            width:100%;
+            text-align:left;
+            transition:transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
+            transform-origin:left center;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .mini-prev .mini-option.selected { 
+            box-shadow:0 4px 12px rgba(0,0,0,0.1);
+            border-left-color:var(--primary);
+            background:linear-gradient(90deg, #ede9fe 0%, #f3e8ff 100%);
+            color:var(--dark);
+            opacity:1;
+            transform:scale(1.02);
+        }
+        .mini-prev .mini-option.shrink { transform: scale(0.6) translateY(-10px); opacity: 0; }    .vs-divider { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+    .vs-text { font-weight:800; color:var(--gray); }
+
+    /* Move main cards slightly when mini block is present to create space with transition */
+    .comparison-container.has-mini .option-card { transition: transform 260ms cubic-bezier(.2,.9,.3,1); }
+    .comparison-container.has-mini #optionA { transform: translateY(-8px); }
+    .comparison-container.has-mini #optionB { transform: translateY(8px); }
+
+        /* animated cloned card used during move-to-mini transition */
+        .anim-clone {
+            position: fixed;
+            z-index: 99999;
+            pointer-events: none;
+            transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 260ms ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
         .tag .tag-x {
             margin-left: 8px;
             font-weight: 800;
@@ -286,7 +351,15 @@
             min-width:160px;
         }
 
-        .mini-history .history-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.mini-history .history-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+
+        /* Styling for single previous comparison (compact) */
+        .previous-card { width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px; }
+        .previous-card .prev-left { display:flex; gap:12px; align-items:center; }
+        .winner-badge { padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85em; color:white; }
+        .winner-badge.a { background: var(--primary); }
+        .winner-badge.b { background: var(--secondary); }
+        .previous-meta { color:var(--gray); font-size:0.85em; }
 
         /* Buttons */
         .btn {
@@ -607,7 +680,7 @@
             }
 
             .vs-divider {
-                transform: rotate(90deg);
+                transform: none;
             }
 
             .header h1 {
@@ -747,18 +820,15 @@
         <!-- Duel Arena Tab -->
         <div id="duel" class="tab-content">
             <div class="duel-arena">
+                <!-- Session items bar: shows all items as small squares, greyed out when shown -->
+                <div id="sessionItemsBar" class="item-squares" aria-hidden="false"></div>
+
                 <div class="duel-progress">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                     </div>
                     <div class="progress-text" id="progressText">Select items to begin dueling</div>
                 </div>
-
-                <!-- Session items bar: shows all items as small squares, greyed out when shown -->
-                <div id="sessionItemsBar" class="item-squares" aria-hidden="false"></div>
-
-                <!-- Mini history of last answered comparisons -->
-                <div id="duelHistory" class="mini-history" aria-live="polite"></div>
 
                 <div id="comparisonArea">
                     <div class="empty-state">
@@ -767,6 +837,9 @@
                         <p>Go to the Dashboard and select a preset or create a custom session to begin</p>
                     </div>
                 </div>
+
+                <!-- Mini history of the most recent answered comparison (placed below the cards) -->
+                <div id="duelHistory" class="mini-history" aria-live="polite"></div>
 
                 <div id="duelControls" style="display: none; text-align: center; margin-top: 20px; gap: 10px; display: flex; justify-content: center;">
                     <button class="btn btn-secondary" onclick="skipComparison()">⏭️ Skip</button>
@@ -912,8 +985,9 @@
             </div>
 
             <div style="margin-bottom:8px;">
-                <label style="font-weight:600;">Add new items (one per line)</label>
-                <textarea id="modalNewItems" class="form-control" placeholder="New item per line"></textarea>
+                <label style="font-weight:600;">Add new items (one per line) — optional description using "|"</label>
+                <textarea id="modalNewItems" class="form-control" placeholder="Format per line: Item name | description (description optional)"></textarea>
+                <small style="color:var(--gray);">Example: Finish project | Due Friday</small>
             </div>
 
             <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;">
@@ -1241,23 +1315,27 @@
                 const cls = colorClasses[idx % colorClasses.length];
                 // use a span and escape basic HTML
                 const safe = String(name).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                return `<span class="tag removable ${cls}" data-name="${safe}" title="Click to remove">${safe}</span>`;
+                    return `<span class="tag removable ${cls}" data-name="${safe}" title="Click to remove"><span class="tag-label">${safe}</span><span class="tag-x">×</span></span>`;
             }).join('');
 
             // Allow clicking a tag to deselect the corresponding option in the multi-select
-            container.querySelectorAll('.tag.removable').forEach(tagEl => {
-                tagEl.addEventListener('click', (e) => {
-                    const name = tagEl.getAttribute('data-name');
-                    for (const opt of sel.options) {
-                        if (opt.value === name) {
-                            opt.selected = false;
-                        }
+                container.querySelectorAll('.tag.removable').forEach(tagEl => {
+                    // clicking the 'x' only will deselect
+                    const x = tagEl.querySelector('.tag-x');
+                    if (x) {
+                        x.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const name = tagEl.getAttribute('data-name');
+                            for (const opt of sel.options) {
+                                if (opt.value === name) {
+                                    opt.selected = false;
+                                }
+                            }
+                            renderPresetTags(presetId);
+                            sel.dispatchEvent(new Event('change'));
+                        });
                     }
-                    renderPresetTags(presetId);
-                    // also update the select's change listeners if any
-                    sel.dispatchEvent(new Event('change'));
                 });
-            });
         }
 
         // -------------------------
@@ -1315,9 +1393,19 @@
             const chosen = [];
             library.querySelectorAll('input[type=checkbox]').forEach(cb => { if (cb.checked) chosen.push(cb.value); });
 
-            // collect new items
+            // collect new items (support 'Name | Description' per line)
+            const newItemsArr = [];
             if (newText && newText.trim()) {
-                newText.split('\n').map(s => s.trim()).filter(s => s).forEach(s => { if (!chosen.includes(s)) chosen.push(s); });
+                newText.split('\n').map(s => s.trim()).filter(s => s).forEach(line => {
+                    // parse 'name | description'
+                    const parts = line.split('|').map(p => p.trim());
+                    const itemName = parts[0];
+                    const itemDesc = parts[1] || '';
+                    if (!chosen.includes(itemName)) {
+                        chosen.push(itemName);
+                        newItemsArr.push({ name: itemName, description: itemDesc });
+                    }
+                });
             }
 
             if (chosen.length < 2) {
@@ -1335,13 +1423,20 @@
 
             chosen.forEach(nameItem => {
                 const exists = presets.some(p => p.items.some(i => i.name === nameItem));
-                if (!exists) userPreset.items.push({ name: nameItem, description: '' });
+                if (!exists) {
+                    // prefer description if provided in newItemsArr
+                    const found = newItemsArr.find(n => n.name === nameItem);
+                    userPreset.items.push({ name: nameItem, description: (found ? found.description : '') });
+                }
             });
             savePresetsToStorage();
             renderPresets();
 
-            // Build session
-            appState.items = chosen.map(n => ({ name: n, description: '', elo: appState.settings.defaultElo, wins:0, losses:0, comparisons:0 }));
+            // Build session (include descriptions where provided)
+            appState.items = chosen.map(n => {
+                const found = newItemsArr.find(x => x.name === n);
+                return { name: n, description: found ? found.description : '', elo: appState.settings.defaultElo, wins:0, losses:0, comparisons:0 };
+            });
             appState.currentSession = { id: Date.now(), presetId: 'custom', title: name || 'Custom Session', category: category || 'custom', startTime: new Date().toISOString(), items: [...appState.items], comparisons: [] };
 
             closeCreateSessionModal();
@@ -1589,27 +1684,86 @@
             const itemA = appState.items[appState.currentPair.itemA];
             const itemB = appState.items[appState.currentPair.itemB];
 
-            area.innerHTML = `
-                <div class="comparison-container">
-                    <div class="option-card" onclick="selectOption('A')" id="optionA">
-                        <h3>${itemA.name}</h3>
-                        ${itemA.description ? `<p>${itemA.description}</p>` : ''}
-                        <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
-                            Elo: ${Math.round(itemA.elo)} | W: ${itemA.wins} | L: ${itemA.losses}
+            // Build mini-previous HTML (left column) if there is at least one completed comparison
+            let miniHtml = '';
+            let miniTop = '';
+            let miniBottom = '';
+            if (appState.currentSession && appState.currentSession.comparisons && appState.currentSession.comparisons.length > 0) {
+                const comps = appState.currentSession.comparisons;
+                const lastRec = comps[comps.length - 1];
+                if (lastRec) {
+                    const aPrev = appState.items[lastRec.itemA] ? escapeHtml(appState.items[lastRec.itemA].name) : 'Item A';
+                    const bPrev = appState.items[lastRec.itemB] ? escapeHtml(appState.items[lastRec.itemB].name) : 'Item B';
+                    const winner = lastRec.winner;
+                    const aClass = (winner === 'A') ? 'mini-option selected' : 'mini-option';
+                    const bClass = (winner === 'B') ? 'mini-option selected' : 'mini-option';
+
+                    miniTop = `<div class="mini-prev" id="miniPrevTop"><div class="mini-option ${aClass.includes('selected') ? 'selected' : ''}" data-choice="A" data-index="${comps.length - 1}">${aPrev}</div></div>`;
+                    miniBottom = `<div class="mini-prev" id="miniPrevBottom"><div class="mini-option ${bClass.includes('selected') ? 'selected' : ''}" data-choice="B" data-index="${comps.length - 1}">${bPrev}</div></div>`;
+                }
+            }
+
+            // prepare the HTML; add has-mini class when mini content exists so CSS can animate card movement
+            const hasMini = Boolean(miniTop || miniBottom);
+            const containerHtml = `
+                <div style="display:flex;gap:20px;align-items:flex-start;">
+                    <div class="comparison-container ${hasMini ? 'has-mini' : ''}" style="flex:1">
+                        <div class="option-card" onclick="selectOption('A')" id="optionA">
+                            <h3>${itemA.name}</h3>
+                            ${itemA.description ? `<p>${itemA.description}</p>` : ''}
+                            <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
+                                Elo: ${Math.round(itemA.elo)} | W: ${itemA.wins} | L: ${itemA.losses}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="vs-divider">VS</div>
+                        <div class="vs-divider">
+                            ${miniTop}
+                            <div class="vs-text">VS</div>
+                            ${miniBottom}
+                        </div>
 
-                    <div class="option-card" onclick="selectOption('B')" id="optionB">
-                        <h3>${itemB.name}</h3>
-                        ${itemB.description ? `<p>${itemB.description}</p>` : ''}
-                        <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
-                            Elo: ${Math.round(itemB.elo)} | W: ${itemB.wins} | L: ${itemB.losses}
+                        <div class="option-card" onclick="selectOption('B')" id="optionB">
+                            <h3>${itemB.name}</h3>
+                            ${itemB.description ? `<p>${itemB.description}</p>` : ''}
+                            <div style="margin-top: 15px; color: var(--gray); font-size: 0.9em;">
+                                Elo: ${Math.round(itemB.elo)} | W: ${itemB.wins} | L: ${itemB.losses}
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
+
+            // If there are existing mini-option elements, animate them shrinking behind the new ones,
+            // then replace the HTML after a short delay so the shrink animation is visible.
+            const existingMiniOpts = document.querySelectorAll('.mini-prev .mini-option');
+            if (existingMiniOpts && existingMiniOpts.length > 0) {
+                existingMiniOpts.forEach(el => el.classList.add('shrink'));
+                setTimeout(() => {
+                    area.innerHTML = containerHtml;
+                    // attach listeners to any mini-option elements (top & bottom) if rendered
+                    area.querySelectorAll('.mini-option').forEach(opt => {
+                        opt.addEventListener('click', (e) => {
+                            const choice = opt.getAttribute('data-choice');
+                            const idx = parseInt(opt.getAttribute('data-index'), 10);
+                            if (!isNaN(idx)) {
+                                editAndReselect(idx, choice);
+                            }
+                        });
+                    });
+                }, 180);
+            } else {
+                area.innerHTML = containerHtml;
+                // attach listeners to any mini-option elements (top & bottom) if rendered
+                area.querySelectorAll('.mini-option').forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        const choice = opt.getAttribute('data-choice');
+                        const idx = parseInt(opt.getAttribute('data-index'), 10);
+                        if (!isNaN(idx)) {
+                            editAndReselect(idx, choice);
+                        }
+                    });
+                });
+            }
 
             document.getElementById('duelControls').style.display = 'flex';
 
@@ -1618,7 +1772,195 @@
             renderDuelMiniHistory();
         }
 
-        function selectOption(choice) {
+        // Render the top bar of all session items as small squares, greying out when shown in completed comparisons
+        function renderSessionItemsBar() {
+            const bar = document.getElementById('sessionItemsBar');
+            if (!bar) return;
+            bar.innerHTML = '';
+            if (!appState.items || appState.items.length === 0) return;
+
+            const shown = new Set();
+            (appState.comparisons || []).forEach(c => { if (c.completed) { shown.add(c.itemA); shown.add(c.itemB); } });
+
+            appState.items.forEach((it, idx) => {
+                const div = document.createElement('div');
+                div.className = 'item-square' + (shown.has(idx) ? ' greyed' : '');
+                const label = it.name.length > 22 ? it.name.slice(0, 20) + '…' : it.name;
+                div.textContent = label;
+                bar.appendChild(div);
+            });
+        }
+
+        // Render the mini-history of the last 5 answered comparisons and make them clickable to edit
+        function renderDuelMiniHistory() {
+            // keep the below-history empty (we now show previous mini on the left)
+            const container = document.getElementById('duelHistory');
+            if (!container) return;
+            container.innerHTML = '';
+        }
+
+        // When clicking a mini-history entry, prepare to edit that comparison: rollback previous stats and show it as the active comparison
+        function editComparison(index) {
+            if (!appState.currentSession || !appState.currentSession.comparisons) return;
+            const rec = appState.currentSession.comparisons[index];
+            if (!rec) return;
+
+            const itemA = appState.items[rec.itemA];
+            const itemB = appState.items[rec.itemB];
+
+            // Rollback elos if prevElos exists
+            if (rec.prevElos) {
+                if (itemA) itemA.elo = rec.prevElos.a;
+                if (itemB) itemB.elo = rec.prevElos.b;
+            }
+
+            // Rollback win/loss/comparisons counts
+            if (rec.winner === 'A') {
+                if (itemA) itemA.wins = Math.max(0, (itemA.wins || 1) - 1);
+                if (itemB) itemB.losses = Math.max(0, (itemB.losses || 1) - 1);
+                if (itemA) itemA.comparisons = Math.max(0, (itemA.comparisons || 1) - 1);
+                if (itemB) itemB.comparisons = Math.max(0, (itemB.comparisons || 1) - 1);
+            } else if (rec.winner === 'B') {
+                if (itemB) itemB.wins = Math.max(0, (itemB.wins || 1) - 1);
+                if (itemA) itemA.losses = Math.max(0, (itemA.losses || 1) - 1);
+                if (itemA) itemA.comparisons = Math.max(0, (itemA.comparisons || 1) - 1);
+                if (itemB) itemB.comparisons = Math.max(0, (itemB.comparisons || 1) - 1);
+            }
+
+            // Mark the original pair object as not completed so UI reflects editable state
+            const pair = (appState.comparisons || []).find(p => p.itemA === rec.itemA && p.itemB === rec.itemB);
+            if (pair) pair.completed = false;
+
+            appState.editingComparisonIndex = index;
+            appState.currentPair = pair || { itemA: rec.itemA, itemB: rec.itemB, completed: false };
+            renderComparison();
+        }
+
+        // Rollback a previous comparison and immediately re-select the given choice
+        // index: index of the comparison record in currentSession.comparisons
+        // choice: 'A' or 'B' to re-apply
+    function editAndReselect(index, choice) {
+            // Defensive checks
+            if (!appState.currentSession || !appState.currentSession.comparisons) return;
+            const rec = appState.currentSession.comparisons[index];
+            if (!rec) return;
+
+            // Use existing rollback logic
+            editComparison(index);
+
+            // Ensure editing index is set so selectOption updates the existing record
+            appState.editingComparisonIndex = index;
+
+            // Small delay to allow render to update before triggering selection
+            setTimeout(() => {
+                // If the current pair matches the record we intended to edit, apply the choice
+                if (appState.currentPair && appState.currentPair.itemA === rec.itemA && appState.currentPair.itemB === rec.itemB) {
+                    animateSelectedCardToMini(choice, () => selectOption(choice, false));
+                } else {
+                    // Fallback: set currentPair explicitly then select
+                    appState.currentPair = { itemA: rec.itemA, itemB: rec.itemB, completed: false };
+                    renderComparison();
+                    setTimeout(() => animateSelectedCardToMini(choice, () => selectOption(choice, false)), 80);
+                }
+            }, 120);
+        }
+
+        // Animate the currently visible selected card down into the mini-prev slot
+        function animateSelectedCardToMini(choice, done) {
+            try {
+                const selId = choice === 'A' ? 'optionA' : 'optionB';
+                const selEl = document.getElementById(selId);
+                if (!selEl) { done(); return; }
+
+                // determine target mini slot (use top for A, bottom for B if present)
+                const targetId = choice === 'A' ? 'miniPrevTop' : 'miniPrevBottom';
+                let targetEl = document.getElementById(targetId);
+
+                // if no explicit mini exists, place target at center of vs-divider
+                const vs = document.querySelector('.vs-divider');
+                let createdTemp = false;
+                if (!targetEl && vs) {
+                    // create a temporary target placeholder
+                    targetEl = document.createElement('div');
+                    targetEl.style.width = '64px';
+                    targetEl.style.height = '30px';
+                    targetEl.style.display = 'block';
+                    vs.appendChild(targetEl);
+                    targetEl.dataset._temp = '1';
+                    createdTemp = true;
+                    // we'll remove it after animation
+                }
+
+                const fromRect = selEl.getBoundingClientRect();
+                const toRect = targetEl ? targetEl.getBoundingClientRect() : fromRect;
+
+                const clone = selEl.cloneNode(true);
+                clone.classList.add('anim-clone');
+                // size & position
+                clone.style.width = `${fromRect.width}px`;
+                clone.style.height = `${fromRect.height}px`;
+                clone.style.left = `${fromRect.left}px`;
+                clone.style.top = `${fromRect.top}px`;
+                clone.style.transform = 'translate(0,0) scale(1)';
+                clone.style.opacity = '1';
+                document.body.appendChild(clone);
+
+                // compute translation to align left edge and scale down
+                // align left edges (no horizontal offset) and move vertically to target
+                const deltaX = toRect.left - fromRect.left;
+                const deltaY = toRect.top - fromRect.top;
+                const scale = Math.min(0.6, (toRect.width / fromRect.width) || 0.6);
+
+                // trigger transition
+                requestAnimationFrame(() => {
+                    clone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+                    clone.style.opacity = '0.9';
+                });
+
+                // shrink existing mini options to make room
+                document.querySelectorAll('.mini-prev .mini-option').forEach(el => el.classList.add('shrink'));
+
+                // cleanup after transition
+                clone.addEventListener('transitionend', () => {
+                    clone.remove();
+                    // remove temporary placeholder if we created it
+                    try {
+                        if (createdTemp && targetEl && targetEl.parentNode) targetEl.parentNode.removeChild(targetEl);
+                    } catch (e) {}
+                    // call completion
+                    done();
+                });
+
+                // safety fallback
+                setTimeout(() => {
+                    if (document.body.contains(clone)) clone.remove();
+                    done();
+                }, 600);
+            } catch (e) {
+                console.error('animation failed', e);
+                done();
+            }
+        }
+
+        // Cancel session (quick abort) — discards progress and returns to dashboard
+        function cancelSession() {
+            if (!appState.currentSession) { switchTab('dashboard'); return; }
+            if (confirm('Cancel this session and discard progress?')) {
+                appState.currentSession = null;
+                appState.items = [];
+                appState.comparisons = [];
+                appState.currentPair = null;
+                saveToStorage();
+                switchTab('dashboard');
+            }
+        }
+
+        function selectOption(choice, animate = true) {
+            // If caller requested animation, run the clone animation then proceed without re-animating
+            if (animate) {
+                animateSelectedCardToMini(choice, () => selectOption(choice, false));
+                return;
+            }
             const itemA = appState.items[appState.currentPair.itemA];
             const itemB = appState.items[appState.currentPair.itemB];
             const prevElos = { a: itemA.elo, b: itemB.elo };
@@ -1658,6 +2000,9 @@
                 appState.currentSession.comparisons.push(record);
             }
 
+            // mark the pair as completed in the global comparisons list
+            if (appState.currentPair) appState.currentPair.completed = true;
+
             // Auto-save
             if (appState.settings.autoSave) saveToStorage();
 
@@ -1696,6 +2041,9 @@
             } else {
                 appState.currentSession.comparisons.push(record);
             }
+
+            // mark pair completed
+            if (appState.currentPair) appState.currentPair.completed = true;
 
             renderDuelMiniHistory();
             renderSessionItemsBar();
