@@ -1,0 +1,260 @@
+[
+  {
+    "title": "🚀 Startup Ideas",
+    "description": "Rank which startup idea has the most potential",
+    "items": [
+      {
+        "name": "AI-Powered Scheduling Assistant",
+        "description": "App that uses AI to optimize calendar management and meeting scheduling"
+      },
+      {
+        "name": "Sustainable Packaging Solutions",
+        "description": "Biodegradable packaging alternatives for e-commerce businesses"
+      },
+      {
+        "name": "Virtual Interior Design Platform",
+        "description": "AI-driven tool to help users visualize and plan home redesigns"
+      },
+      {
+        "name": "Mental Health Community App",
+        "description": "Peer support and professional resources for mental wellness"
+      },
+      {
+        "name": "Remote Team Collaboration Tool",
+        "description": "All-in-one platform for distributed teams to work together efficiently"
+      },
+      {
+        "name": "Hyper-Local Food Delivery",
+        "description": "Connect neighborhood restaurants with delivery-only service"
+      },
+      {
+        "name": "Personalized Fitness AI Coach",
+        "description": "AI-powered personal training adapted to individual goals and preferences"
+      },
+      {
+        "name": "Educational Content Platform",
+        "description": "Microlearning app with bite-sized courses on in-demand skills"
+      }
+    ]
+  },
+  {
+    "title": "🎓 Professional Development Areas",
+    "description": "Which skills should you develop to advance your career?",
+    "items": [
+      {
+        "name": "Public Speaking",
+        "description": "Ability to present ideas effectively to audiences"
+      },
+      {
+        "name": "Strategic Thinking",
+        "description": "Long-term planning and big-picture vision"
+      },
+      {
+        "name": "Technical Leadership",
+        "description": "Managing technical teams and projects"
+      },
+      {
+        "name": "Data Analysis",
+        "description": "Making decisions based on data and metrics"
+      },
+      {
+        "name": "Emotional Intelligence",
+        "description": "Understanding and managing emotions in team dynamics"
+      },
+      {
+        "name": "Negotiation Skills",
+        "description": "Getting better outcomes in business discussions"
+      },
+      {
+        "name": "Digital Marketing",
+        "description": "Modern marketing channels and tactics"
+      },
+      {
+        "name": "Product Management",
+        "description": "Understanding product development lifecycle"
+      }
+    ]
+  },
+  {
+    "title": "💻 Programming Languages to Learn",
+    "description": "Which programming language should you focus on next?",
+    "items": [
+      {
+        "name": "Python",
+        "description": "Versatile language great for AI, data science, and automation"
+      },
+      {
+        "name": "TypeScript",
+        "description": "JavaScript with type safety for large-scale applications"
+      },
+      {
+        "name": "Rust",
+        "description": "Systems programming language focusing on safety and performance"
+      },
+      {
+        "name": "Go",
+        "description": "Fast compiled language popular for cloud and backend services"
+      },
+      {
+        "name": "Kotlin",
+        "description": "Modern language for Android development and JVM applications"
+      },
+      {
+        "name": "Solidity",
+        "description": "Smart contract language for blockchain development"
+      },
+      {
+        "name": "Julia",
+        "description": "Language for numerical computing and scientific research"
+      },
+      {
+        "name": "Elixir",
+        "description": "Functional programming language for distributed systems"
+      }
+    ]
+  },
+  {
+    "title": "🏖️ Vacation Destinations",
+    "description": "Where should you travel next?",
+    "items": [
+      {
+        "name": "Tokyo, Japan",
+        "description": "Modern cities, ancient temples, amazing food and cutting-edge culture"
+      },
+      {
+        "name": "Barcelona, Spain",
+        "description": "Architecture, beaches, Mediterranean lifestyle and vibrant nightlife"
+      },
+      {
+        "name": "Costa Rica",
+        "description": "Rainforests, beaches, adventure activities and eco-tourism"
+      },
+      {
+        "name": "Iceland",
+        "description": "Dramatic landscapes, waterfalls, geothermal hot springs and unique nature"
+      },
+      {
+        "name": "New Zealand",
+        "description": "Stunning national parks, adventure sports and world-class hiking"
+      },
+      {
+        "name": "Portugal",
+        "description": "Historic cities, coastal views, affordable prices and warm hospitality"
+      },
+      {
+        "name": "Thailand",
+        "description": "Temples, beaches, street food and budget-friendly tropical paradise"
+      },
+      {
+        "name": "Peru",
+        "description": "Machu Picchu, Amazon rainforest and rich cultural heritage"
+      }
+    ]
+  },
+  {
+    "title": "🎬 Movie Night Choices",
+    "description": "What should we watch tonight?",
+    "items": [
+      {
+        "name": "Inception",
+        "description": "Mind-bending sci-fi thriller about dreams within dreams"
+      },
+      {
+        "name": "The Shawshank Redemption",
+        "description": "Classic drama about hope and friendship in prison"
+      },
+      {
+        "name": "Parasite",
+        "description": "Award-winning thriller exploring class and societal divisions"
+      },
+      {
+        "name": "The Matrix",
+        "description": "Revolutionary sci-fi action film that changed cinema"
+      },
+      {
+        "name": "Spirited Away",
+        "description": "Beautiful anime masterpiece with magic and adventure"
+      },
+      {
+        "name": "Pulp Fiction",
+        "description": "Iconic cult classic with interwoven storylines and memorable characters"
+      }
+    ]
+  },
+  {
+    "title": "🍔 Restaurant Cuisines",
+    "description": "What type of food do you want to eat?",
+    "items": [
+      {
+        "name": "Italian",
+        "description": "Pasta, pizza, risotto and Mediterranean flavors"
+      },
+      {
+        "name": "Thai",
+        "description": "Spicy curries, pad thai and aromatic dishes"
+      },
+      {
+        "name": "Japanese",
+        "description": "Sushi, ramen, tempura and delicate flavors"
+      },
+      {
+        "name": "Mexican",
+        "description": "Tacos, enchiladas, guacamole and bold spices"
+      },
+      {
+        "name": "Indian",
+        "description": "Curries, naan, biryani and complex spice combinations"
+      },
+      {
+        "name": "French",
+        "description": "Fine dining, sauces, pastries and culinary excellence"
+      },
+      {
+        "name": "Korean",
+        "description": "BBQ, kimchi, bibimbap and fermented specialties"
+      },
+      {
+        "name": "Middle Eastern",
+        "description": "Hummus, kebabs, falafel and Mediterranean staples"
+      }
+    ]
+  },
+  {
+    "title": "📱 Tech Product Features",
+    "description": "Which features should the product team prioritize next?",
+    "items": [
+      {
+        "name": "Mobile App Optimization",
+        "description": "Improve performance and user experience on mobile devices"
+      },
+      {
+        "name": "Advanced Analytics Dashboard",
+        "description": "Detailed insights and real-time reporting capabilities"
+      },
+      {
+        "name": "API Integration",
+        "description": "Allow third-party integrations and automation"
+      },
+      {
+        "name": "Dark Mode",
+        "description": "Eye-friendly interface for low-light environments"
+      },
+      {
+        "name": "AI-Powered Recommendations",
+        "description": "Machine learning to personalize user experience"
+      },
+      {
+        "name": "Team Collaboration Tools",
+        "description": "Shared workspaces and real-time collaboration"
+      },
+      {
+        "name": "Advanced Search",
+        "description": "Fast, intelligent search with filters and sorting"
+      },
+      {
+        "name": "Data Export Options",
+        "description": "Easy export to CSV, PDF and other formats"
+      }
+    ]
+  }
+]
